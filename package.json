@@ -1,0 +1,16 @@
+{
+  "name": "right-consents-types",
+  "version": "0.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "keywords": [],
+  "types": "dist/index.d.ts",
+  "author": "",
+  "license": "GPL-3.0-or-later",
+  "devDependencies": {
+    "typescript": "^4.1.3"
+  }
+}
