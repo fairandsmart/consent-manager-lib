@@ -14,7 +14,7 @@
  * #L%
  */
 
-import { SortDirection } from './common';
+import { SortDirection } from '../common';
 
 export enum ModelEntryStatus {
   ACTIVE = 'ACTIVE',

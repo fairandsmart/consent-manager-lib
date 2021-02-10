@@ -14,7 +14,7 @@
  * #L%
  */
 
-import { CollectionMethod } from './common';
+import { CollectionMethod } from '../common';
 
 export interface ConsentContext {
   subject: string;

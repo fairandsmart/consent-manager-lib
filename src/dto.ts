@@ -14,10 +14,10 @@
  * #L%
  */
 
-import { ExtractionConfigCondition, RecordStatus, RecordStatusExplanation } from './records';
-import { ModelData, ModelDataType, ModelEntryStatus, ModelVersionStatus, ModelVersionType, PreviewType } from './entry';
-import { NotificationReport } from './notifications';
-import { ConsentFormOrientation } from './processings';
+import { ExtractionConfigCondition, RecordStatus, RecordStatusExplanation } from './models/records';
+import { ModelData, ModelDataType, ModelEntryStatus, ModelVersionStatus, ModelVersionType, PreviewType } from './models/entry';
+import { NotificationReport } from './models/notifications';
+import { ConsentFormOrientation } from './models/processings';
 import { CollectionMethod } from './common';
 
 export interface ExtractionConfigDto {

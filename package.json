@@ -1,10 +1,12 @@
 {
-  "name": "right-consents-types",
+  "name": "@fairandsmart/consent-manager",
   "version": "0.0.0",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "link": "cd dist && npm link",
+    "packlink": "tsc && cd dist && npm link"
   },
   "keywords": [],
   "types": "dist/index.d.ts",

@@ -14,7 +14,7 @@
  * #L%
  */
 
-import { CollectionMethod, SortDirection } from './common';
+import { CollectionMethod, SortDirection } from '../common';
 
 export enum RecordStates {
   PENDING = 'PENDING',

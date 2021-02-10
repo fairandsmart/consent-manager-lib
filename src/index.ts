@@ -15,10 +15,11 @@
  */
 
 export * from './common';
-export * from './entry';
-export * from './notifications';
-export * from './processings';
-export * from './records';
-export * from './stats';
+export * from './models/entry';
+export * from './models/notifications';
+export * from './models/processings';
+export * from './models/records';
+export * from './models/stats';
 export * from './dto';
+export * from './helpers';
 
