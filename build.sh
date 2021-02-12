@@ -2,7 +2,7 @@
 
 rm -rf lib/
 # Compile and run the generator
-tsc -p tsconfig.json
+./node_modules/typescript/bin/tsc -p tsconfig.json
 
 npx prettier --write lib/**/*
 
