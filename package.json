@@ -4,7 +4,7 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "build": "./build.sh",
+    "build": "build.sh",
     "pack": "npm run build && cd lib && npm pack"
   },
   "keywords": [],

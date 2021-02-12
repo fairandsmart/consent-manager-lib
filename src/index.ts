@@ -1,11 +1,20 @@
 export * from './http';
 export * from './common';
 export * from './api';
-export * from './consents';
-export * from './keys';
-export * from './models';
-export * from './receipts';
-export * from './records';
-export * from './statistics';
-export * from './subjects';
-export * from './system';
+
+import * as ConsentsResourceImport from './consents';
+import * as KeysResourceImport from './keys';
+import * as ModelsResourceImport from './models';
+import * as ReceiptsResourceImport from './receipts';
+import * as RecordsResourceImport from './records';
+import * as StatsResourceImport from './statistics';
+import * as SubjectsResourceImport from './subjects';
+import * as SystemResourceImport from './system';
+export declare const ConsentsResource: typeof ConsentsResourceImport;
+export declare const KeysResource: typeof KeysResourceImport;
+export declare const ModelsResource: typeof ModelsResourceImport;
+export declare const ReceiptsResource: typeof ReceiptsResourceImport;
+export declare const RecordsResource: typeof RecordsResourceImport;
+export declare const StatsResource: typeof StatsResourceImport;
+export declare const SubjectsResource: typeof SubjectsResourceImport;
+export declare const SystemResource: typeof SystemResourceImport;
