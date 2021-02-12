@@ -1,0 +1,32 @@
+{
+  "name": "@fairandsmart/consent-manager",
+  "version": "0.0.1",
+  "description": "TypeScript mappings for the Fair&Smart's Right Consents API",
+  "type": "module",
+  "sideEffects": false,
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fairandsmart/consent-manager-lib.git"
+  },
+  "author": "Alan Balbo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fairandsmart/consent-manager-lib"
+  },
+  "keywords": [
+    "Fair & Smart",
+    "Consent Manager",
+    "Right Consents",
+    "TypeScript"
+  ],
+  "homepage": "https://github.com/fairandsmart/consent-manager-lib",
+  "devDependencies": {},
+  "dependencies": {},
+  "main": "./index.js",
+  "types": "./index.d.ts",
+  "module": "./index.js",
+  "exports": {
+    ".": "./index.js"
+  }
+}
