@@ -1,6 +1,6 @@
 {
   "name": "@fairandsmart/consent-manager",
-  "version": "0.0.1-beta.2",
+  "version": "0.0.1-beta.3",
   "description": "TypeScript mappings for the Fair&Smart's Right Consents API",
   "type": "module",
   "sideEffects": false,
