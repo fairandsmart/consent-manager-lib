@@ -1,7 +1,6 @@
 export * from './http';
 export * from './common';
 export * from './api';
-
 export * as ConsentsResource from './consents';
 export * as KeysResource from './keys';
 export * as ModelsResource from './models';
