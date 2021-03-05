@@ -10,7 +10,6 @@ export enum ModelEntryStatus {
 export type ModelEntryStatuses = keyof ModelEntryStatus;
 export const MODEL_ENTRY_STATUSES: ModelEntryStatuses[] = Object.keys(ModelEntryStatus) as ModelEntryStatuses[];
 
-
 export interface ModelData {
     type: ModelDataType;
 }
@@ -25,8 +24,6 @@ export enum ModelVersionType {
     MAJOR = 'MAJOR',
     MINOR = 'MINOR'
 }
-
-
 
 export interface BasicInfo extends ModelData {
     type: 'basicinfo';
@@ -181,6 +178,7 @@ export interface PreviewDto {
     data?: ModelData;
     previewType?: PreviewType;
 }
+
 export interface CreateModelDto {
     key: string;
     name: string;

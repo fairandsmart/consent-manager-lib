@@ -1,4 +1,3 @@
-
 export enum TimeScale {
     DAYS = 'DAYS',
     WEEKS = 'WEEKS',
