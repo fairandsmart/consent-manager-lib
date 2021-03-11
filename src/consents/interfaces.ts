@@ -24,7 +24,7 @@ export interface ConsentContext {
     elements: string[];
 
     /** If the form is not in iframe mode, the user will be redirected to this callback once the process is over */
-    callback: string;
+    callback?: string;
 
     /** The language of the form. All models must have a valid version of this language for the form to display properly */
     language: string;
@@ -33,37 +33,37 @@ export interface ConsentContext {
     validity?: string;
 
     /** If the form should be displayed entirely of partially */
-    formType: ConsentFormType;
+    formType?: ConsentFormType;
 
     /** (optional) The format the receipt will be displayed to the user: HTML, XML, PDF or TEXT. Default is HTML */
     receiptDisplayType?: ReceiptDisplayType;
 
     /** Any relevant informations about the user that will be persisted in the receipt */
-    userinfos: { [key: string]: string };
+    userinfos?: { [key: string]: string };
 
     /** Any other relevant informations about the context that will be persisted in the record */
-    attributes: { [key: string]: string };
+    attributes?: { [key: string]: string };
 
     /** The reference to the Email model that will be sent to the user */
-    notificationModel: string;
+    notificationModel?: string;
 
     /** The recipient the confirmation email will be sent to */
-    notificationRecipient: string;
+    notificationRecipient?: string;
 
     /** Specifies how the consent was collected. Either:
      * WEBFORM (the user used a form)
      * or OPERATOR (a competent authority filled the form)
      */
-    collectionMethod: CollectionMethod;
+    collectionMethod?: CollectionMethod;
 
     /** The identifier of the user who used the form */
-    author: string;
+    author?: string;
 
     /** If true, the form will be displayed as a preview and will be for display purposes only */
-    preview: boolean;
+    preview?: boolean;
 
     /** If true, the form will contain the iFrameResizer library, and will not redirect the user to a callback */
-    iframe: boolean;
+    iframe?: boolean;
 
     /** (optional) The reference of a theme model to use to alter the visual of the form */
     theme?: string;
