@@ -1,4 +1,4 @@
-import { CollectionMethod, SortDirection } from '../common';
+import { SortDirection } from '../common';
 
 export enum RecordStates {
     PENDING = 'PENDING',
@@ -31,7 +31,7 @@ export interface RecordFilter {
     states?: RecordStates[];
     infos?: string[];
     elements?: string[];
-    collectionMethods?: CollectionMethod[];
+    origin?: string;
     after?: number;
     before?: number;
     value?: string;
@@ -49,7 +49,7 @@ export interface EntryRecord {
     recordCreation?: number;
     recordExpiration?: number;
     comment?: string;
-    collectionMethod?: CollectionMethod;
+    origin?: string;
     status?: RecordStatus;
     active: boolean;
     versionIndex: number;
@@ -92,7 +92,7 @@ export interface RecordDto {
     value: string;
     status: RecordStatus;
     statusExplanation: RecordStatusExplanation;
-    collectionMethod: CollectionMethod;
+    origin: string;
     comment: string;
     transaction: string;
     notificationReports: NotificationReport[];
