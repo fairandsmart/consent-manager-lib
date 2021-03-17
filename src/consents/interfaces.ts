@@ -19,7 +19,7 @@ export interface ConsentContext {
      * webform (the user used a form)
      * or operator (a competent authority filled the form)
      */
-    origin?: String;
+    origin?: string;
 
     /** The recipient the confirmation email will be sent to */
     notificationRecipient?: string;
