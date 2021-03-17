@@ -1,5 +1,4 @@
 import { SortDirection } from "../common";
-import { ConsentFormOrientation } from "../consents";
 export declare enum ModelEntryStatus {
   ACTIVE = "ACTIVE",
   INACTIVE = "INACTIVE",
@@ -26,8 +25,6 @@ export interface BasicInfo extends ModelData {
   footer: string;
   jurisdiction: string;
   jurisdictionVisible: boolean;
-  collectionMethod: string;
-  collectionMethodVisible: boolean;
   dataController: Controller;
   dataControllerVisible: boolean;
   scope: string;
@@ -131,13 +128,40 @@ export interface Email extends ModelData {
   footer: string;
   signature: string;
 }
+export interface FormLayout extends ModelData {
+  type: "layout";
+  info: string;
+  elements: string[];
+  theme: string;
+  notification: string;
+  orientation: FormLayoutOrientation;
+  existingElementsVisibles: boolean;
+  desiredReceiptMimeType: string;
+  validityVisible: boolean;
+  includeIFrameResizer: boolean;
+  acceptAllVisible: boolean;
+  acceptAllText: string;
+  footerOnTop: boolean;
+}
+export declare type SupportedReceiptMimeType =
+  | "text/html"
+  | "application/xml"
+  | "application/pdf"
+  | "text/plain";
+export declare const RECEIPT_DISPLAY_TYPES: SupportedReceiptMimeType[];
+export declare enum FormLayoutOrientation {
+  HORIZONTAL = "HORIZONTAL",
+  VERTICAL = "VERTICAL",
+}
+export declare const CONSENT_FORM_ORIENTATIONS: FormLayoutOrientation[];
 export declare type ModelDataType =
   | "basicinfo"
   | "processing"
   | "conditions"
   | "theme"
   | "email"
-  | "preference";
+  | "preference"
+  | "layout";
 export declare enum PreviewType {
   FORM = "FORM",
   RECEIPT = "RECEIPT",
@@ -157,7 +181,7 @@ export interface ModelFilter {
 }
 export interface PreviewDto {
   language: string;
-  orientation: ConsentFormOrientation;
+  orientation: FormLayoutOrientation;
   data?: ModelData;
   previewType?: PreviewType;
 }
