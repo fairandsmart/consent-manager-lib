@@ -15,7 +15,7 @@ export interface ConsentContext {
    * webform (the user used a form)
    * or operator (a competent authority filled the form)
    */
-  origin?: String;
+  origin?: string;
   /** The recipient the confirmation email will be sent to */
   notificationRecipient?: string;
   /** (optional) The ISO 8601 duration for the validity of the record.  */
@@ -30,14 +30,14 @@ export interface ConsentContext {
   };
   /** (readonly) A transaction identifier for that consent.  */
   transaction?: string;
-  /** The reference to the 'formlayout' model that will be used.*/
-  layout?: string;
-  /** The FormaLayout Data to use ; if layout key is provided, layoutData will be ignored.*/
-  layoutData?: FormLayout;
   /** The identifier of the user who used the form */
   author?: string;
   /** If true, the form will be displayed as a preview and will be for display purposes only */
   preview?: boolean;
+  /** The FormLayout Data to use ; if layout key is provided, layoutData will be ignored.*/
+  layoutData?: FormLayout;
+  /** The reference to the 'formlayout' model that will be used.*/
+  layout?: string;
 }
 /** Used to generate a Receipt from a transaction id */
 export interface ConsentTransaction {

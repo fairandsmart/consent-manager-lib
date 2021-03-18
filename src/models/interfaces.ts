@@ -151,16 +151,16 @@ export interface FormLayout extends ModelData {
     type: 'layout';
     info: string;
     elements: string[];
-    theme: string;
-    notification: string;
-    orientation: FormLayoutOrientation;
-    existingElementsVisibles: boolean;
-    desiredReceiptMimeType: string;
-    validityVisible: boolean;
-    includeIFrameResizer: boolean;
-    acceptAllVisible: boolean;
-    acceptAllText: string;
-    footerOnTop: boolean;
+    orientation?: FormLayoutOrientation;
+    theme?: string;
+    notification?: string;
+    existingElementsVisible?: boolean;
+    desiredReceiptMimeType?: string;
+    validityVisible?: boolean;
+    includeIFrameResizer?: boolean;
+    acceptAllVisible?: boolean;
+    acceptAllText?: string;
+    footerOnTop?: boolean;
 }
 
 export type SupportedReceiptMimeType = 'text/html' | 'application/xml' | 'application/pdf' | 'text/plain';
