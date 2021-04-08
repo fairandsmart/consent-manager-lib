@@ -1,4 +1,4 @@
-import { FormLayout } from '../models';
+import { ConsentOrigin, FormLayout } from '../models';
 
 /**
  * The ConsentContext is used to generate a token. This token is used:
@@ -19,7 +19,7 @@ export interface ConsentContext {
      * webform (the user used a form)
      * or operator (a competent authority filled the form)
      */
-    origin?: string;
+    origin?: ConsentOrigin;
 
     /** The recipient the confirmation email will be sent to */
     notificationRecipient?: string;

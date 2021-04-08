@@ -136,7 +136,7 @@ export interface FormLayout extends ModelData {
   theme?: string;
   notification?: string;
   existingElementsVisible?: boolean;
-  desiredReceiptMimeType?: string;
+  desiredReceiptMimeType?: SupportedReceiptMimeType;
   validityVisible?: boolean;
   includeIFrameResizer?: boolean;
   acceptAllVisible?: boolean;
@@ -154,6 +154,12 @@ export declare enum FormLayoutOrientation {
   VERTICAL = "VERTICAL",
 }
 export declare const CONSENT_FORM_ORIENTATIONS: FormLayoutOrientation[];
+export declare enum ConsentOrigin {
+  WEBFORM = "WEBFORM",
+  OPERATOR = "OPERATOR",
+  USER = "USER",
+}
+export declare const CONSENT_ORIGIN: ConsentOrigin[];
 export declare type ModelDataType =
   | "basicinfo"
   | "processing"
