@@ -12,6 +12,9 @@ export interface ConsentContext {
     /** If the form is not in iframe mode, the user will be redirected to this callback once the process is over */
     callback?: string;
 
+    /** If the IFrame mode is set, set the allowed origin for the parent window domain */
+    iframeOrigin?: string;
+
     /** The language of the form. All models must have a valid version of this language for the form to display properly */
     language: string;
 
