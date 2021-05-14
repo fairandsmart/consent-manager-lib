@@ -13,4 +13,8 @@ export interface ClientConfigDto {
   userPageEnabled: boolean;
   userPageElements: string[];
   language: string;
+  rolesMapping: RoleMappingMap;
+}
+export interface RoleMappingMap {
+  [key: string]: string;
 }

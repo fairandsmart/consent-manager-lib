@@ -105,3 +105,12 @@ npm run pack
 npm i {lib-repository}/lib/fairandsmart-consent-manager-{VERSION}.tgz
 ```
 
+# Contribute 
+
+- Create a branch for your work (PRD-XXX)
+- Upgrade the version in the package-lib.json
+- Add your work
+- Run `.build.sh` and push 
+- Create a new merge request
+
+
