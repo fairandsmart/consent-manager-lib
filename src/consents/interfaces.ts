@@ -50,6 +50,7 @@ export interface ConsentContext {
 
     /** The reference to the 'formlayout' model that will be used.*/
     layout?: string;
+
 }
 
 /** Used to generate a Receipt from a transaction id */

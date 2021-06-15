@@ -10,3 +10,5 @@ export * as RecordsResource from './records';
 export * as StatsResource from './statistics';
 export * as SubjectsResource from './subjects';
 export * as SystemResource from './system';
+export * as TokensResource from './tokens';
+export * as UsersResource from './users';
