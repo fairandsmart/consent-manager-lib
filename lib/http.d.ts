@@ -11,6 +11,7 @@ export interface RcHttpClientConfig {
         [key: string]: string;
     };
     responseType?: 'arraybuffer' | 'blob' | 'json' | 'text';
+    noAuth?: boolean;
 }
 /**
  * A generic, minimal type for providing an HTTP client function.
