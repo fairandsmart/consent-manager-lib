@@ -1,13 +1,5 @@
 import { Observable } from "rxjs";
-import { ConsentContext } from "../consents";
-import { ReceiptContext, SubjectContext } from "./interfaces";
-export declare function generateFormToken(
-  context: ConsentContext,
-  subjectToken?: string
-): Observable<string>;
-export declare function createSubjectToken(
-  subjectContext: SubjectContext
-): Observable<string>;
-export declare function createSubjectTokenFromReceipt(
-  receiptContext: ReceiptContext
+import { AccessToken } from "./interfaces";
+export declare function createToken(
+  accessToken: AccessToken
 ): Observable<string>;

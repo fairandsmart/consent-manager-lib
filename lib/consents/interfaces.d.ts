@@ -34,8 +34,6 @@ export interface ConsentContext {
   transaction?: string;
   /** The identifier of the user who used the form */
   author?: string;
-  /** If true, the form will be displayed as a preview and will be for display purposes only */
-  preview?: boolean;
   /** The FormLayout Data to use ; if layout key is provided, layoutData will be ignored.*/
   layoutData?: FormLayout;
   /** The reference to the 'formlayout' model that will be used.*/

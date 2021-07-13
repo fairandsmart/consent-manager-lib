@@ -1,7 +1,16 @@
-import { ConsentContext } from "./interfaces";
 import { Observable } from "rxjs";
-export declare function generateToken(ctx: ConsentContext): Observable<string>;
-export declare function getFormUrl(token: string): string;
-export declare function postConsent(values: {
-  [key: string]: string;
-}): Observable<string>;
+import { ConsentContext } from "./interfaces";
+export declare function createTransactionJson(
+  ctx: ConsentContext,
+  lang: string
+): Observable<string>;
+export declare function postSubmissionValuesHtml(
+  txid: string,
+  values: {
+    [key: string]: string;
+  }
+): Observable<string>;
+export declare function getSubmitFormPreview(
+  ctx: ConsentContext,
+  lang: string
+): Observable<string>;

@@ -6,7 +6,7 @@ import { UserStatusDto } from './interfaces';
 export function getMe(token: string): Observable<string> {
   return RightConsents.http<string>({
     method: 'GET',
-    url: `${RightConsents.config.apiRoot}/user/me`,
+    url: `${RightConsents.config.apiRoot}/user`,
     params: { t: token },
     noAuth: true
   });
