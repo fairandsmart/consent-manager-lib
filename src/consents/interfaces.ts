@@ -1,5 +1,18 @@
 import { ConsentOrigin, FormLayout } from '../models';
 
+export enum Confirmation {
+    NONE = 'NONE',
+    FORM_CODE = 'FORM_CODE',
+    EMAIL_CODE = 'EMAIL_CODE',
+    SMS_CODE = 'SMS_CODE',
+    SIGNATURE = 'SIGNATURE',
+    AUDIO_RECORD = 'AUDIO_RECORD',
+    VIDEO_RECORD = 'VIDEO_RECORD',
+    DIGITAL_SIGNATURE = 'DIGITAL_SIGNATURE'
+}
+
+export const CONFIRMATION_TYPES: Confirmation[] = Object.keys(Confirmation) as Confirmation[];
+
 /**
  * The ConsentContext is used to generate a token. This token is used:
  * - To generate a form in a browser for the user to fill
@@ -48,6 +61,8 @@ export interface ConsentContext {
     /** The reference to the 'formlayout' model that will be used.*/
     layout?: string;
 
+    /** The type of user confirmation needed, default is NONE */
+    confirmation?: Confirmation;
 }
 
 /** Used to generate a Receipt from a transaction id */
