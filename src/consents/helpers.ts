@@ -10,7 +10,7 @@ export class ConsentHelper {
       origin: ConsentOrigin.USER,
       layoutData: {
         info: '',
-        elements: [ModelEntryHelper.getActiveVersion(entry)?.identifier!],
+        elements: [entry.key!],
         type: 'layout',
       }
     }

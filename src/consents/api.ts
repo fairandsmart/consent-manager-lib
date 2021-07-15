@@ -1,8 +1,9 @@
 import { RightConsents } from '../api';
 import { Observable } from 'rxjs';
 import { ConsentContext } from './interfaces';
+import { RCApiOptions } from '../http';
 
-export function createTransactionJson(ctx: ConsentContext, lang: string): Observable<string> {
+export function createTransactionJson(ctx: ConsentContext, lang: string, options?: RCApiOptions): Observable<string> {
   return RightConsents.http<string>({
     method: 'POST',
     url: `${RightConsents.config.apiRoot}/consents`,
@@ -12,11 +13,11 @@ export function createTransactionJson(ctx: ConsentContext, lang: string): Observ
       'Content-Type': 'application/json',
       'Accept-Language': lang,
     },
-    noAuth: true
+    options
   });
 }
 
-export function postSubmissionValuesHtml(txid: string, values: {[key: string]: string}): Observable<string> {
+export function postSubmissionValuesHtml(txid: string, values: {[key: string]: string}, options?: RCApiOptions): Observable<string> {
   return RightConsents.http<string>({
     method: 'POST',
     url: `${RightConsents.config.apiRoot}/consents/${txid}/submit`,
@@ -25,11 +26,11 @@ export function postSubmissionValuesHtml(txid: string, values: {[key: string]: s
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
     },
-    noAuth: true
+    options
   });
 }
 
-export function getSubmitFormPreview(ctx: ConsentContext, lang: string): Observable<string> {
+export function getSubmitFormPreview(ctx: ConsentContext, lang: string, options?: RCApiOptions): Observable<string> {
   return RightConsents.http<string>({
     method: 'POST',
     url: `${RightConsents.config.apiRoot}/consents/preview`,
@@ -39,6 +40,6 @@ export function getSubmitFormPreview(ctx: ConsentContext, lang: string): Observa
       'Content-Type': 'application/json',
       'Accept-Language': lang,
     },
-    noAuth: true
+    options
   });
 }

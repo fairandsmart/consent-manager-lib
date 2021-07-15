@@ -1,14 +1,24 @@
 import { Observable } from "rxjs";
 import { SubjectDto } from "./interfaces";
 import { RecordsMap } from "../records";
-export declare function listSubjects(name: string): Observable<SubjectDto[]>;
-export declare function getSubject(name: string): Observable<SubjectDto>;
+import { RCApiOptions } from "../http";
+export declare function listSubjects(
+  name: string,
+  options?: RCApiOptions
+): Observable<SubjectDto[]>;
+export declare function getSubject(
+  name: string,
+  options?: RCApiOptions
+): Observable<SubjectDto>;
 export declare function createSubject(
-  subject: SubjectDto
+  subject: SubjectDto,
+  options?: RCApiOptions
 ): Observable<SubjectDto>;
 export declare function updateSubject(
-  subject: SubjectDto
+  subject: SubjectDto,
+  options?: RCApiOptions
 ): Observable<SubjectDto>;
 export declare function listSubjectRecords(
-  subject: string
+  subject: string,
+  options?: RCApiOptions
 ): Observable<RecordsMap>;
