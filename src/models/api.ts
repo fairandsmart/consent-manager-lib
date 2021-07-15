@@ -13,128 +13,138 @@ import {
   UpdateModelDto
 } from './interfaces';
 import { CollectionPage } from '../common';
+import { RCApiOptions } from '../http';
 
 export const NEW_VERSION_UUID = '11111111-9999-1111-9999-111111111111';
 
-export function listEntries(filter: ModelFilter): Observable<CollectionPage<ModelEntryDto>> {
+export function listEntries(filter: ModelFilter, options: RCApiOptions = { noAuth: true }): Observable<CollectionPage<ModelEntryDto>> {
   return RightConsents.http<CollectionPage<ModelEntryDto>>({
     method: 'GET',
     url: `${RightConsents.config.apiRoot}/models`,
     params: filter,
-    noAuth: true
+    options
   });
 }
 
-export function createEntry(dto: CreateModelDto): Observable<ModelEntryDto> {
+export function createEntry(dto: CreateModelDto, options?: RCApiOptions): Observable<ModelEntryDto> {
   return RightConsents.http<ModelEntryDto>({
     method: 'POST',
     url: `${RightConsents.config.apiRoot}/models`,
-    body: dto
+    body: dto,
+    options
   });
 }
 
-export function getEntry(id: string): Observable<ModelEntryDto> {
+export function getEntry(id: string, options: RCApiOptions = { noAuth: true }): Observable<ModelEntryDto> {
   return RightConsents.http<ModelEntryDto>({
     method: 'GET',
     url: `${RightConsents.config.apiRoot}/models/${id}`,
-    noAuth: true
+    options
   });
 }
 
-export function updateEntry(id: string, dto: UpdateModelDto): Observable<ModelEntryDto> {
+export function updateEntry(id: string, dto: UpdateModelDto, options?: RCApiOptions): Observable<ModelEntryDto> {
   return RightConsents.http<ModelEntryDto>({
     method: 'PUT',
     url: `${RightConsents.config.apiRoot}/models/${id}`,
-    body: dto
+    body: dto,
+    options
   });
 }
 
-export function deleteEntry(id: string): Observable<void> {
+export function deleteEntry(id: string, options?: RCApiOptions): Observable<void> {
   return RightConsents.http<void>({
     method: 'DELETE',
     url: `${RightConsents.config.apiRoot}/models/${id}`,
+    options
   });
 }
 
-export function listVersions<T extends ModelData = ModelData>(id: string): Observable<ModelVersionDtoLight<T>[]> {
+export function listVersions<T extends ModelData = ModelData>(id: string, options: RCApiOptions = { noAuth: true }): Observable<ModelVersionDtoLight<T>[]> {
   return RightConsents.http<ModelVersionDtoLight[]>({
     method: 'GET',
     url: `${RightConsents.config.apiRoot}/models/${id}/versions`,
-    noAuth: true
+    options
   });
 }
 
-export function createVersion<T extends ModelData = ModelData>(id: string, dto: ModelVersionDto<T>): Observable<ModelVersionDto<T>> {
+export function createVersion<T extends ModelData = ModelData>(id: string, dto: ModelVersionDto<T>, options?: RCApiOptions): Observable<ModelVersionDto<T>> {
   return RightConsents.http<ModelVersionDto<T>>({
     method: 'POST',
     url: `${RightConsents.config.apiRoot}/models/${id}/versions`,
-    body: dto
+    body: dto,
+    options
   });
 }
 
-export function getLatestVersion<T extends ModelData = ModelData>(id: string): Observable<ModelVersionDto<T>> {
+export function getLatestVersion<T extends ModelData = ModelData>(id: string, options: RCApiOptions = { noAuth: true }): Observable<ModelVersionDto<T>> {
   return RightConsents.http<ModelVersionDto<T>>({
     method: 'GET',
     url: `${RightConsents.config.apiRoot}/models/${id}/versions/latest`,
-    noAuth: true
+    options
   });
 }
 
-export function getActiveVersion<T extends ModelData = ModelData>(id: string): Observable<ModelVersionDto<T>> {
+export function getActiveVersion<T extends ModelData = ModelData>(id: string, options: RCApiOptions = { noAuth: true }): Observable<ModelVersionDto<T>> {
   return RightConsents.http<ModelVersionDto<T>>({
     method: 'GET',
     url: `${RightConsents.config.apiRoot}/models/${id}/versions/active`,
-    noAuth: true
+    options
   });
 }
 
-export function getVersion<T extends ModelData = ModelData>(id: string, versionId: string): Observable<ModelVersionDto<T>> {
+export function getVersion<T extends ModelData = ModelData>(id: string, versionId: string, options: RCApiOptions = { noAuth: true }): Observable<ModelVersionDto<T>> {
   return RightConsents.http<ModelVersionDto<T>>({
     method: 'GET',
     url: `${RightConsents.config.apiRoot}/models/${id}/versions/${versionId}`,
-    noAuth: true
+    options
   });
 }
 
-export function updateVersion<T extends ModelData = ModelData>(id: string, versionId: string, dto: ModelVersionDto<T>): Observable<ModelVersionDto<T>> {
+export function updateVersion<T extends ModelData = ModelData>(id: string, versionId: string, dto: ModelVersionDto<T>, options?: RCApiOptions): Observable<ModelVersionDto<T>> {
   return RightConsents.http<ModelVersionDto<T>>({
     method: 'PUT',
     url: `${RightConsents.config.apiRoot}/models/${id}/versions/${versionId}`,
-    body: dto
+    body: dto,
+    options
   });
 }
 
-export function updateVersionStatus<T extends ModelData = ModelData>(id: string, versionId: string, status: ModelVersionStatus)
-  : Observable<ModelVersionDto<T>> {
+export function updateVersionStatus<T extends ModelData = ModelData>(id: string, versionId: string, status: ModelVersionStatus, options?: RCApiOptions)
+    : Observable<ModelVersionDto<T>> {
   return RightConsents.http<ModelVersionDto<T>>({
     method: 'PUT',
     url: `${RightConsents.config.apiRoot}/models/${id}/versions/${versionId}/status`,
-    body: { status }
+    body: { status },
+    options
   });
 }
 
-export function updateVersionType<T extends ModelData = ModelData>(id: string, versionId: string, type: ModelVersionType):
-  Observable<ModelVersionDto<T>> {
+export function updateVersionType<T extends ModelData = ModelData>(id: string, versionId: string, type: ModelVersionType, options?: RCApiOptions):
+    Observable<ModelVersionDto<T>> {
   return RightConsents.http<ModelVersionDto<T>>({
     method: 'PUT',
     url: `${RightConsents.config.apiRoot}/models/${id}/versions/${versionId}/type`,
-    body: { type }
+    body: { type },
+    options
   });
 }
 
-export function getVersionPreview(id: string, vid: string, dto: PreviewDto): Observable<string> {
+export function getVersionPreview(id: string, vid: string, dto: PreviewDto, options?: RCApiOptions): Observable<string> {
   return RightConsents.http<string>({
     method: 'POST',
     url: `${RightConsents.config.apiRoot}/models/${id}/versions/${vid}/preview`,
     body: dto,
-    responseType: 'text'
+    responseType: 'text',
+    options
   });
 }
 
-export function deleteVersion(id: string, versionId: string): Observable<void> {
+export function deleteVersion(id: string, versionId: string, options?: RCApiOptions): Observable<void> {
   return RightConsents.http<void>({
     method: 'DELETE',
     url: `${RightConsents.config.apiRoot}/models/${id}/versions/${versionId}`,
+    options
   });
 }
 

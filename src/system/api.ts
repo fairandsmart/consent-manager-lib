@@ -1,17 +1,20 @@
 import { Observable } from 'rxjs';
 import { ClientConfigDto, SupportInfoDto, UserDto } from './interfaces';
 import { RightConsents } from '../api';
+import { RCApiOptions } from '../http';
 
-export function getSupportInfo(): Observable<SupportInfoDto> {
+export function getSupportInfo(options?: RCApiOptions): Observable<SupportInfoDto> {
     return RightConsents.http<SupportInfoDto>({
         method: 'GET',
-        url: `${RightConsents.config.apiRoot}/system/support/infos`
+        url: `${RightConsents.config.apiRoot}/system/support/infos`,
+        options
     });
 }
 
-export function getClientConfig(): Observable<ClientConfigDto> {
+export function getClientConfig(options?: RCApiOptions): Observable<ClientConfigDto> {
     return RightConsents.http<ClientConfigDto>({
         method: 'GET',
-        url: `${RightConsents.config.apiRoot}/system/config`
+        url: `${RightConsents.config.apiRoot}/system/config`,
+        options
     });
 }

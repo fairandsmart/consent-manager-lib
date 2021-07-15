@@ -4,12 +4,16 @@ import {
   ExtractionResultDto,
   RecordsMap,
 } from "./interfaces";
+import { RCApiOptions } from "../http";
 export declare function listRecordsOfSubject(
-  subject: string
+  subject: string,
+  options?: RCApiOptions
 ): Observable<RecordsMap>;
 export declare function extractRecords(
-  config: ExtractionConfigDto
+  config: ExtractionConfigDto,
+  options?: RCApiOptions
 ): Observable<ExtractionResultDto[]>;
 export declare function extractRecordsCsv(
-  config: ExtractionConfigDto
+  config: ExtractionConfigDto,
+  options?: RCApiOptions
 ): Observable<string>;

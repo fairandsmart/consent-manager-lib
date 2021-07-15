@@ -2,30 +2,28 @@ import { RightConsents } from '../api';
 import { Observable } from 'rxjs';
 import { RecordDto } from '../records';
 import { UserStatusDto } from './interfaces';
+import { RCApiOptions } from '../http';
 
-export function getMe(token: string): Observable<string> {
+export function getMe(options?: RCApiOptions): Observable<string> {
   return RightConsents.http<string>({
     method: 'GET',
     url: `${RightConsents.config.apiRoot}/user`,
-    params: { t: token },
-    noAuth: true
+    options,
   });
 }
 
-export function getRecordsForUser(token: string): Observable<{ [key: string]: RecordDto[] }> {
+export function getRecordsForUser(options?: RCApiOptions): Observable<{ [key: string]: RecordDto[] }> {
   return RightConsents.http<{ [key: string]: RecordDto[] }>({
     method: 'GET',
     url: `${RightConsents.config.apiRoot}/user/records`,
-    params: { t: token },
-    noAuth: true
+    options,
   });
 }
 
-export function getUserStatus(token: string): Observable<UserStatusDto> {
+export function getUserStatus(options?: RCApiOptions): Observable<UserStatusDto> {
   return RightConsents.http<UserStatusDto>({
     method: 'GET',
     url: `${RightConsents.config.apiRoot}/user/status`,
-    params: { t: token },
-    noAuth: true
+    options,
   })
 }
