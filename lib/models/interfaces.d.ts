@@ -55,6 +55,15 @@ export declare enum ProcessingPurpose {
   CONSENT_RESEARCH = "CONSENT_RESEARCH",
 }
 export declare const PROCESSING_PURPOSES: string[];
+export declare enum ProcessingLegalBasis {
+  LEGAL_BASIS_CONSENT = "LEGAL_BASIS_CONSENT",
+  LEGAL_BASIS_CONTRACT = "LEGAL_BASIS_CONTRACT",
+  LEGAL_BASIS_LEGITIMATE_INTEREST = "LEGAL_BASIS_LEGITIMATE_INTEREST",
+  LEGAL_BASIS_LEGAL_OBLIGATION = "LEGAL_BASIS_LEGAL_OBLIGATION",
+  LEGAL_BASIS_PUBLIC_INTEREST = "LEGAL_BASIS_PUBLIC_INTEREST",
+  LEGAL_BASIS_VITAL_INTEREST = "LEGAL_BASIS_VITAL_INTEREST",
+}
+export declare const PROCESSING_LEGAL_BASES: string[];
 export interface RetentionInfo {
   label: string;
   value: number;
@@ -64,6 +73,7 @@ export interface RetentionInfo {
 export interface Processing extends ModelData {
   type: "processing";
   title: string;
+  legalBasis: ProcessingLegalBasis;
   data: string;
   retention: RetentionInfo;
   usage: string;
