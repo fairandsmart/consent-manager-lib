@@ -1,7 +1,14 @@
-export declare class ThemeAutocomplete {
-    private static readonly CSS_HINTS;
-    static createSnippets(language: string): {
-        text: string;
-        displayText: string;
-    }[];
+interface HintEntry {
+    value: string;
+    context: {
+        [key: string]: string;
+    };
+    position: {
+        [key: string]: string;
+    };
+    description?: {
+        [key: string]: string;
+    };
 }
+export declare const CSS_HINTS: HintEntry[];
+export {};
