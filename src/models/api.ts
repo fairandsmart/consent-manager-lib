@@ -4,6 +4,7 @@ import {
   CreateModelDto,
   ModelData,
   ModelEntryDto,
+  ModelEntryExportDto,
   ModelFilter,
   ModelVersionDto,
   ModelVersionDtoLight,
@@ -148,3 +149,19 @@ export function deleteVersion(id: string, versionId: string, options?: RCApiOpti
   });
 }
 
+export function exportEntry(id: string, options: RCApiOptions = { noAuth: true }): Observable<ModelEntryExportDto> {
+  return RightConsents.http<ModelEntryExportDto>({
+    method: 'GET',
+    url: `${RightConsents.config.apiRoot}/models/${id}/export`,
+    options
+  });
+}
+
+export function importEntry(dto: ModelEntryExportDto, options?: RCApiOptions): Observable<ModelEntryDto> {
+  return RightConsents.http<ModelEntryDto>({
+    method: 'POST',
+    url: `${RightConsents.config.apiRoot}/models/import`,
+    body: dto,
+    options
+  });
+}

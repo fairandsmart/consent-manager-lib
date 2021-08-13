@@ -231,16 +231,21 @@ export interface ModelVersionDto<T extends ModelData = ModelData>
     [language: string]: T;
   };
 }
-export interface ModelEntryDto {
+export interface ModelEntryDtoPartial {
   id: string;
   key: string;
   name: string;
   description: string;
   type: ModelDataType;
-  versions: ModelVersionDtoLight[];
   creationDate: number;
   modificationDate: number;
   status: ModelEntryStatus;
   defaultLanguage: string;
   availableLanguages: string[];
+}
+export interface ModelEntryDto extends ModelEntryDtoPartial {
+  versions: ModelVersionDtoLight[];
+}
+export interface ModelEntryExportDto extends ModelEntryDtoPartial {
+  versions: ModelVersionDto[];
 }
