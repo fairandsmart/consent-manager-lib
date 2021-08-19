@@ -3,6 +3,7 @@ import {
   CreateModelDto,
   ModelData,
   ModelEntryDto,
+  ModelEntryExportDto,
   ModelFilter,
   ModelVersionDto,
   ModelVersionDtoLight,
@@ -86,3 +87,11 @@ export declare function deleteVersion(
   versionId: string,
   options?: RCApiOptions
 ): Observable<void>;
+export declare function exportEntry(
+  id: string,
+  options?: RCApiOptions
+): Observable<ModelEntryExportDto>;
+export declare function importEntry(
+  dto: ModelEntryExportDto,
+  options?: RCApiOptions
+): Observable<ModelEntryDto>;
