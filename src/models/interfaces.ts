@@ -24,8 +24,8 @@ export enum ModelVersionType {
     MINOR = 'MINOR'
 }
 
-export interface BasicInfo extends ModelData {
-    type: 'basicinfo';
+export interface Information extends ModelData {
+    type: 'information';
     title: string;
     header: string;
     footer: string;
@@ -194,7 +194,7 @@ export enum ConsentOrigin {
 
 export const CONSENT_ORIGIN: ConsentOrigin[] = Object.keys(ConsentOrigin) as ConsentOrigin[];
 
-export type ModelDataType = 'basicinfo' | 'processing' | 'conditions' | 'theme' | 'email' | 'preference' | 'layout';
+export type ModelDataType = 'information' | 'processing' | 'conditions' | 'theme' | 'email' | 'preference' | 'layout';
 
 export enum PreviewType {
     FORM = 'FORM',
