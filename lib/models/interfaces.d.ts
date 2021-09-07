@@ -18,8 +18,8 @@ export declare enum ModelVersionType {
   MAJOR = "MAJOR",
   MINOR = "MINOR",
 }
-export interface BasicInfo extends ModelData {
-  type: "basicinfo";
+export interface Information extends ModelData {
+  type: "information";
   title: string;
   header: string;
   footer: string;
@@ -171,7 +171,7 @@ export declare enum ConsentOrigin {
 }
 export declare const CONSENT_ORIGIN: ConsentOrigin[];
 export declare type ModelDataType =
-  | "basicinfo"
+  | "information"
   | "processing"
   | "conditions"
   | "theme"
