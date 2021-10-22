@@ -10,6 +10,14 @@ export declare enum Confirmation {
   DIGITAL_SIGNATURE = "DIGITAL_SIGNATURE",
 }
 export declare const CONFIRMATION_TYPES: Confirmation[];
+export declare enum UserInfosKeys {
+  EMAIL_KEY = "emailAddress",
+  PHONE_KEY = "phoneNumber",
+}
+export declare enum ConfirmationConfigKeys {
+  SENDER_EMAIL_KEY = "senderEmail",
+  SENDER_PHONE_KEY = "senderPhone",
+}
 /**
  * The ConsentContext is used to generate a token. This token is used:
  * - To generate a form in a browser for the user to fill
@@ -29,8 +37,6 @@ export interface ConsentContext {
    * or operator (a competent authority filled the form)
    */
   origin?: ConsentOrigin;
-  /** The recipient the confirmation email will be sent to */
-  notificationRecipient?: string;
   /** (optional) The ISO 8601 duration for the validity of the record.  */
   validity?: string;
   /** Any relevant informations about the user that will be persisted in the receipt */
@@ -51,6 +57,10 @@ export interface ConsentContext {
   layout?: string;
   /** The type of user confirmation needed, default is NONE */
   confirmation?: Confirmation;
+  /** Additional information needed for user confirmation */
+  confirmationConfig?: {
+    [key: string]: string;
+  };
 }
 /** Used to generate a Receipt from a transaction id */
 export interface ConsentTransaction {
