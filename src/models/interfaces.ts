@@ -167,17 +167,12 @@ export interface FormLayout extends ModelData {
     theme?: string;
     notification?: string;
     existingElementsVisible?: boolean;
-    desiredReceiptMimeType?: SupportedReceiptMimeType;
     validityVisible?: boolean;
     includeIFrameResizer?: boolean;
     acceptAllVisible?: boolean;
     acceptAllText?: string;
     footerOnTop?: boolean;
 }
-
-export type SupportedReceiptMimeType = 'text/html' | 'application/xml' | 'application/pdf' | 'text/plain';
-
-export const RECEIPT_DISPLAY_TYPES: SupportedReceiptMimeType[] = ['text/html', 'application/xml', 'application/pdf', 'text/plain'];
 
 export enum FormLayoutOrientation {
     HORIZONTAL = 'HORIZONTAL',
