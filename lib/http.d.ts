@@ -1,4 +1,5 @@
 import { Observable } from 'rxjs';
+export declare const defaultHttpClient: RcHttpClient;
 export interface RcHttpClientConfig {
     method: 'GET' | 'POST' | 'DELETE' | 'PUT';
     url: string;
@@ -12,6 +13,7 @@ export interface RcHttpClientConfig {
     };
     responseType?: 'arraybuffer' | 'blob' | 'json' | 'text';
     options?: RCApiOptions;
+    resolveHeaders?: boolean;
 }
 /**
  * Additional options that can alter the default behavior of the api calls

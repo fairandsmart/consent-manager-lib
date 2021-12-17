@@ -3,6 +3,10 @@
   "version": "0.0.0",
   "description": "",
   "main": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fairandsmart/consent-manager-lib.git"
+  },
   "type": "module",
   "scripts": {
     "build": "build.sh",
@@ -13,7 +17,17 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
+    "@fairandsmart/types": "^2.7.0-beta.37",
+    "rxjs": "^6.6.3",
     "typescript": "^4.1.3",
-    "rxjs": "^6.6.3"
+    "jsonpath": "^1.0.2"
+  },
+  "dependencies": {
+    "@types/jsonpath": "^0.2.0",
+    "awesome-typescript-loader": "^5.2.1",
+    "lodash": "^4.17.21",
+    "ts-loader": "^9.2.6",
+    "webpack": "^5.64.4",
+    "webpack-cli": "^4.9.1"
   }
 }
