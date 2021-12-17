@@ -1,5 +1,5 @@
 export interface AccessToken {
-  subject: string;
-  scopes?: string[];
-  validity?: string;
+    subject: string;
+    scopes?: string[];
+    validity?: string;
 }

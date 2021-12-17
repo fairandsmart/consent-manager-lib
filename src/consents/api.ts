@@ -9,6 +9,7 @@ export function createTransactionJson(ctx: ConsentContext, lang: string, options
     url: `${RightConsents.config.apiRoot}/consents`,
     body: ctx,
     responseType: 'text',
+    resolveHeaders: true,
     headers: {
       'Content-Type': 'application/json',
       'Accept-Language': lang,

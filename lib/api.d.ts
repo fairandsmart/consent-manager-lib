@@ -1,5 +1,6 @@
 import { RcHttpClient } from './http';
 export interface RightConsentsApiConfig {
+    catalogRoot: string;
     httpClient: RcHttpClient;
     apiRoot: string;
 }

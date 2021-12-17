@@ -1,5 +1,47 @@
 import { Observable } from 'rxjs';
 
+export const defaultHttpClient: RcHttpClient = (config: RcHttpClientConfig) => {
+    return new Observable((obs) => {
+        const xhr = new XMLHttpRequest();
+        // TODO
+        xhr.open(config.method, config.url + (config.params ? jsonToQueryString(config.params) : ''));
+        let body;
+        if (config.body) {
+            body = JSON.stringify(config.body);
+        }
+        console.log('sending body', body);
+        if (config.headers) {
+            for (let header in config.headers) {
+                if (Object.prototype.hasOwnProperty.call(config.headers, header)) {
+                    xhr.setRequestHeader(header, config.headers[header]);
+                }
+            }
+        }
+        xhr.onload = function() {
+            if (config.responseType && config.responseType !== 'json') {
+                obs.next(xhr.response);
+            } else {
+                obs.next(JSON.parse(xhr.response));
+            }
+            obs.complete();
+        };
+
+        xhr.onerror = function(err) {
+            obs.error(err);
+        };
+
+        xhr.send(body);
+    });
+
+    function jsonToQueryString(json: any) {
+        return '?' +
+            Object.keys(json).map(function(key) {
+                return encodeURIComponent(key) + '=' +
+                    encodeURIComponent(json[key]);
+            }).join('&');
+    }
+}
+
 export interface RcHttpClientConfig {
     method: 'GET' | 'POST' | 'DELETE' | 'PUT';
     url: string;
@@ -11,6 +53,7 @@ export interface RcHttpClientConfig {
     headers?: { [key: string]: string };
     responseType?: 'arraybuffer' | 'blob' | 'json' | 'text';
     options?: RCApiOptions;
+    resolveHeaders?: boolean;
 }
 
 /**

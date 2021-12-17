@@ -1,7 +1,8 @@
-import { RcHttpClient } from './http';
+import { defaultHttpClient, RcHttpClient } from './http';
 import { Observable } from 'rxjs';
 
 export interface RightConsentsApiConfig {
+    catalogRoot: string;
     httpClient: RcHttpClient;
     apiRoot: string;
 }
@@ -9,7 +10,8 @@ export interface RightConsentsApiConfig {
 class RightConsentsApi {
     // @ts-ignore
     private _config: RightConsentsApiConfig & { default?: boolean } = {
-        httpClient: (_c) => new Observable() as any,
+        httpClient: defaultHttpClient,
+        catalogRoot: 'no_endpoint',
         apiRoot: 'no_endpoint',
         default: true
     };
@@ -38,13 +40,14 @@ class RightConsentsApi {
     constructor() {}
 
     public init(config: RightConsentsApiConfig) {
-        this._config = config;
+        this._config = {...this._config, ...config, ...{default: false}};
     }
 
     public reset() {
         this._config = {
-            httpClient: (_c) => new Observable() as any,
+            httpClient: defaultHttpClient,
             apiRoot: 'no_endpoint',
+            catalogRoot: 'no_endpoint',
             default: true
         };
     }

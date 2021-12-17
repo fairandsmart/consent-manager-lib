@@ -1,0 +1,85 @@
+<html lang="en">
+<head>
+    <title>Form Integration Demo</title>
+    <script type="text/javascript" src="../../_bundles/consent.js" charset="UTF-8"></script>
+</head>
+<body>
+    <h1>Form Integration Demo</h1>
+    <p>This page demonstrates the integration of a Fair&Smart Data Form within an HTML page using the javascript SDK. </p>
+    <h3>Form</h3>
+    <style type="text/css">
+        #my-form {
+            max-width: 500px;
+        }
+
+        .fs-form-container {
+            display: flex;
+            flex-direction: column;
+        }
+        .fs-form-container > .entry {
+            margin: 10px 0;
+            width: 100%;
+        }
+        .fs-form-container > .entry > input {
+            border-radius: 3px;
+            padding: 12px 10px;
+            border: 1px solid #CCC;
+            z-index: 2;
+            width: 100%;
+            transition: outline-color .12s ease;
+            outline-offset: -1px;
+        }
+        .fs-form-container > .entry > label {
+            padding: 0 5px;
+            font-size: .95em;
+            color: #000C;
+            z-index: 0;
+            pointer-events: none;
+            transition: color .15s ease;
+        }
+        .fs-form-container > .entry:focus-within > label {
+            color: #41bbd7;
+        }
+        .fs-form-container > .entry:focus-within > input {
+            outline: #41bbd7 solid 2px;
+        }
+        .fs-form-container > .entry > input:hover:not(:focus) {
+            outline: #000 solid 2px;
+        }
+        .fs-form-container > .submit-btn {
+            background: #41bbd7;
+            color: #FFF;
+            padding: 10px;
+            border: 0;
+            border-radius: 5px;
+        }
+        .fs-form-container > .submit-btn:hover {
+            background: #369cb3;
+            cursor: pointer;
+        }
+        .fs-form-container > .submit-btn:active {
+            background: #46c5e3;
+            cursor: pointer;
+        }
+        .fs-form-container > .submit-btn:disabled {
+            background: #3B5156;
+            cursor: not-allowed;
+        }
+    </style>
+    <form id="my-form"></form>
+
+    <form id="consent-form"></form>
+
+    <script type="application/javascript">
+        FairAndSmart.RightConsents.init({
+            apiRoot: 'http://localhost:8087',
+            catalogRoot: 'http://localhost:8191'
+        });
+        const dataFormWrapper = new FairAndSmart.DataFormWrapper({
+            elementId: 'my-form',
+            schemaName: 'Contact',
+            schemaPrefix: 'sncfreseau'
+        });
+    </script>
+</body>
+</html>
