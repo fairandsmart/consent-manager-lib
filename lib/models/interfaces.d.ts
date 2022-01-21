@@ -34,6 +34,12 @@ export interface Information extends ModelData {
     privacyPolicyUrl: string;
     customPrivacyPolicyText: string;
 }
+export declare enum DefaultInfoTag {
+    DEFAULT_INFO_USER = "DEFAULT_INFO_USER",
+    DEFAULT_INFO_OPERATOR = "DEFAULT_INFO_OPERATOR",
+    DEFAULT_INFO_FORM = "DEFAULT_INFO_FORM"
+}
+export declare const DEFAULT_INFO_TAGS: string[];
 export interface Controller {
     company: string;
     info: string;
@@ -110,8 +116,7 @@ export interface Conditions extends ModelData {
     type: 'conditions';
     title: string;
     body: string;
-    acceptLabel?: string;
-    rejectLabel?: string;
+    refusable?: boolean;
 }
 export declare enum LogoPosition {
     LEFT = "LEFT",
@@ -142,19 +147,19 @@ export interface FormLayout extends ModelData {
     type: 'layout';
     info: string;
     elements: string[];
-    orientation?: FormLayoutOrientation;
     theme?: string;
     notification?: string;
+    orientation?: FormLayoutOrientation;
     existingElementsVisible?: boolean;
-    desiredReceiptMimeType?: SupportedReceiptMimeType;
     validityVisible?: boolean;
     includeIFrameResizer?: boolean;
     acceptAllVisible?: boolean;
     acceptAllText?: string;
+    submitText?: string;
+    cancelText?: string;
     footerOnTop?: boolean;
+    cancellable?: boolean;
 }
-export declare type SupportedReceiptMimeType = 'text/html' | 'application/xml' | 'application/pdf' | 'text/plain';
-export declare const RECEIPT_DISPLAY_TYPES: SupportedReceiptMimeType[];
 export declare enum FormLayoutOrientation {
     HORIZONTAL = "HORIZONTAL",
     VERTICAL = "VERTICAL"
@@ -230,6 +235,7 @@ export interface ModelEntryDtoPartial {
     status: ModelEntryStatus;
     defaultLanguage: string;
     availableLanguages: string[];
+    tags?: string[];
 }
 export interface ModelEntryDto extends ModelEntryDtoPartial {
     versions: ModelVersionDtoLight[];

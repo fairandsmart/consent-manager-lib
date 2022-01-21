@@ -61,6 +61,15 @@ export function deleteEntry(id: string, options?: RCApiOptions): Observable<void
   });
 }
 
+export function setDefaultInfoModel(user: string, operator: string, form: string, options?: RCApiOptions): Observable<void> {
+  return RightConsents.http<void>({
+    method: 'POST',
+    url: `${RightConsents.config.apiRoot}/models/defaultinfo`,
+    params: { user: user, operator: operator, form: form },
+    options
+  });
+}
+
 export function listVersions<T extends ModelData = ModelData>(id: string, options: RCApiOptions = { noAuth: true }): Observable<ModelVersionDtoLight<T>[]> {
   return RightConsents.http<ModelVersionDtoLight[]>({
     method: 'GET',
