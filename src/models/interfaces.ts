@@ -41,6 +41,14 @@ export interface Information extends ModelData {
     customPrivacyPolicyText: string;
 }
 
+export enum DefaultInfoTag {
+    DEFAULT_INFO_USER = 'DEFAULT_INFO_USER',
+    DEFAULT_INFO_OPERATOR = 'DEFAULT_INFO_OPERATOR',
+    DEFAULT_INFO_FORM = 'DEFAULT_INFO_FORM',
+}
+
+export const DEFAULT_INFO_TAGS = Object.keys(DefaultInfoTag);
+
 export interface Controller {
     company: string;
     info: string;
@@ -126,8 +134,7 @@ export interface Conditions extends ModelData {
     type: 'conditions';
     title: string;
     body: string;
-    acceptLabel?: string; // deprecated
-    rejectLabel?: string; // deprecated
+    refusable?: boolean;
 }
 
 export enum LogoPosition {
@@ -163,15 +170,18 @@ export interface FormLayout extends ModelData {
     type: 'layout';
     info: string;
     elements: string[];
-    orientation?: FormLayoutOrientation;
     theme?: string;
     notification?: string;
+    orientation?: FormLayoutOrientation;
     existingElementsVisible?: boolean;
     validityVisible?: boolean;
     includeIFrameResizer?: boolean;
     acceptAllVisible?: boolean;
     acceptAllText?: string;
+    submitText?: string;
+    cancelText?: string;
     footerOnTop?: boolean;
+    cancellable?: boolean;
 }
 
 export enum FormLayoutOrientation {
@@ -260,6 +270,7 @@ export interface ModelEntryDtoPartial {
     status: ModelEntryStatus;
     defaultLanguage: string;
     availableLanguages: string[];
+    tags?: string[];
 }
 
 export interface ModelEntryDto extends ModelEntryDtoPartial {

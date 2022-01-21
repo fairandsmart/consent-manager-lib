@@ -1,5 +1,4 @@
 import { defaultHttpClient, RcHttpClient } from './http';
-import { Observable } from 'rxjs';
 
 export interface RightConsentsApiConfig {
     catalogRoot: string;

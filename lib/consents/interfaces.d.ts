@@ -39,6 +39,8 @@ export interface ConsentContext {
     origin?: ConsentOrigin;
     /** (optional) The ISO 8601 duration for the validity of the record.  */
     validity?: string;
+    /** Specifies whether the consent can be updated afterwards. */
+    updatable?: boolean;
     /** Any relevant informations about the user that will be persisted in the receipt */
     userinfos?: {
         [key: string]: string;

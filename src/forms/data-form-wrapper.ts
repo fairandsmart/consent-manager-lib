@@ -1,6 +1,6 @@
 import { RightConsents } from '../api';
 import { DecoratedSchema, DecoratedSchemaEntry } from './interfaces';
-import { RegistryPropertyType, FairQueryHelper, Pds, DataStoreHelper } from '@fairandsmart/types';
+import { RegistryPropertyType, FairQueryHelper, DataStoreHelper } from '@fairandsmart/types';
 
 export class DataFormWrapper {
 
