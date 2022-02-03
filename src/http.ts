@@ -16,6 +16,10 @@ export const defaultHttpClient: RcHttpClient = (config: RcHttpClientConfig) => {
             }
         }
         xhr.onload = function() {
+            if (xhr.status >= 400) {
+                obs.error(config.responseType !== 'json' ? xhr.response : JSON.parse(xhr.response));
+                return;
+            }
             if (config.responseType && config.responseType !== 'json') {
                 obs.next(xhr.response);
             } else {
