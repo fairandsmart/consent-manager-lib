@@ -3,13 +3,11 @@ import { Observable } from 'rxjs';
 export const defaultHttpClient: RcHttpClient = (config: RcHttpClientConfig) => {
     return new Observable((obs) => {
         const xhr = new XMLHttpRequest();
-        // TODO
         xhr.open(config.method, config.url + (config.params ? jsonToQueryString(config.params) : ''));
         let body;
         if (config.body) {
             body = JSON.stringify(config.body);
         }
-        console.log('sending body', body);
         if (config.headers) {
             for (let header in config.headers) {
                 if (Object.prototype.hasOwnProperty.call(config.headers, header)) {

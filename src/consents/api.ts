@@ -18,6 +18,17 @@ export function createTransactionJson(ctx: ConsentContext, lang: string, options
   });
 }
 
+export function getTransactionJson(transactionId: string, options?: RCApiOptions): Observable<string> {
+  return RightConsents.http<string>({
+    method: 'GET',
+    url: `${RightConsents.config.apiRoot}/consents/${transactionId}`,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    options
+  });
+}
+
 export function postSubmissionValuesHtml(txid: string, values: {[key: string]: string}, options?: RCApiOptions): Observable<string> {
   return RightConsents.http<string>({
     method: 'POST',

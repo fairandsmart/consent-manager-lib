@@ -34,7 +34,7 @@
     "./api": "./api.js",
     "./http": "./http.js",
     "./common": "./common.js",
-    "./consents":  "./consents/index.js",
+    "./consents": "./consents/index.js",
     "./keys": "./keys/index.js",
     "./models": "./models/index.js",
     "./receipts": "./receipts/index.js",

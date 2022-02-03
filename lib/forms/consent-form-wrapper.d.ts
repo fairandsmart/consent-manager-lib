@@ -1,19 +1,13 @@
-import { DecoratedSchema } from './interfaces';
-import { ModelData } from '../models';
+import { ConsentCollector } from './consent-collector';
+import { DataFormWrapper } from './data-form-wrapper';
 export declare class ConsentFormWrapper {
     private config;
-    schema: DecoratedSchema | undefined;
-    parentFormElement: HTMLFormElement | null;
     formId: string;
     constructor(config: {
-        elementId: string;
-        layoutId: string;
-        prefix: string;
-        customCss?: string;
-        onSubmit?: (result: any) => void;
-        onAbort?: (reason: string) => void;
+        consentCollector: ConsentCollector;
+        dataFormWrapper: DataFormWrapper;
+        subjectFieldId?: string;
+        subjectFieldName?: string;
     });
-    transformElement(): void;
-    loadLayout(): Promise<import("../models").ModelVersionDto<ModelData>>;
-    submitForm(): void;
+    collect(): Promise<void>;
 }
