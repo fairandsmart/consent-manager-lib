@@ -1,10 +1,11 @@
 import { RightConsents } from '../api';
 import { DecoratedSchema, DecoratedSchemaEntry } from './interfaces';
-import { RegistryPropertyType, FairQueryHelper, DataStoreHelper } from '@fairandsmart/types';
+import { RegistryPropertyType, FairQueryHelper, DataStoreHelper, FsData } from '@fairandsmart/types';
 import { ConsentCollector } from './consent-collector';
 import { Observable, Subject } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 
-export class DataFormWrapper {
+export class DataCollector {
 
     schema: DecoratedSchema | undefined;
     parentFormElement: HTMLFormElement | null = null;
@@ -12,14 +13,18 @@ export class DataFormWrapper {
     dataStore = new DataStoreHelper();
     rendered: boolean = false;
     private onSend$ = new Subject<DataStoreHelper>();
+    finalSubject: string | undefined;
 
     constructor(private config: {
         elementId: string,
         schemaName: string,
         schemaPrefix: string,
+        dataCreationEndpoint: string,
         customCss?: string,
-        onSubmit?: (result: any) => void,
-        onAbort?: (reason: string) => void
+        user?: string,
+        userFieldId?: string,
+        userFieldName?: string,
+        dataSentTemplate?: string,
     }) {
         this.formId = (Math.random() + 1).toString(36).substring(4);
     }
@@ -50,6 +55,13 @@ export class DataFormWrapper {
             });
         } else {
             throw new Error(`[F&S Data Form Wrapper] Element with id ${this.config.elementId} not found`);
+        }
+    }
+
+    destroyForm() {
+        if (this.parentFormElement !== null) {
+            this.parentFormElement.innerHTML = this.config.dataSentTemplate || 'Form Sent';
+            this.rendered = false;
         }
     }
 
@@ -106,42 +118,48 @@ export class DataFormWrapper {
     }
 
     submitForm() {
+        this.dataStore = new DataStoreHelper();
         if (this.parentFormElement) {
             const fields = this.parentFormElement.getElementsByClassName('form-input');
-            // TODO might need to reset data store
             for (let fieldIndex in fields) {
                 if (fields.hasOwnProperty(fieldIndex)) {
                     this.populateDataStore(fields[fieldIndex] as HTMLInputElement);
                 }
             }
-            console.log('sending data');
+            if (!this.getSubject()) {
+                throw new Error('Missing user information. Either provide a "user" or "userFieldId" field in the DataFormWrapper configuration. See documentation for more information');
+            }
             this.onSend$.next(this.dataStore);
         } else {
             throw new Error('Could not find a valid form element');
         }
     }
 
-    getSubject(entryId: string, entryField?: string) {
-        const entry = this.schema?.entries.find((e) => e.id === entryId);
-        if (entry) {
-            const result: any = FairQueryHelper.apply(this.dataStore.store, entry.query);
-            if (result?.length) {
-                const dataEntry = result[0].value;
-                if (!!entryField) {
-                    if (typeof dataEntry === 'object' && !!entryField && Object.prototype.hasOwnProperty.call(dataEntry, entryField)) {
-                        return dataEntry[entryField];
-                    } else {
-                        throw new Error(`Could not find subject for field ${entryField} in data entry`);
-                    }
+    getSubject() {
+        if (this.config.user) {
+            this.finalSubject = this.config.user;
+        }
+        if (this.config.userFieldId) {
+            const entry = this.schema?.entries.find((e) => e.id === this.config.userFieldId);
+            if (entry) {
+                const result: any = FairQueryHelper.apply(this.dataStore.store, entry.query);
+                if (!result?.length) {
+                    throw new Error(`Could not find subject for entry id ${this.config.userFieldId} in form data`);
                 }
-                return dataEntry;
-            } else {
-                throw new Error(`Could not find subject for entry id ${entryId} in form data`);
+                const dataEntry = result[0].value;
+                this.finalSubject = dataEntry;
+                if (!!this.config.userFieldName) {
+                    if (typeof dataEntry !== 'object' || !this.config.userFieldName || !Object.prototype.hasOwnProperty.call(dataEntry, this.config.userFieldName)) {
+                        throw new Error(`Could not find subject for field ${this.config.userFieldName} in data entry`);
+                    }
+                    this.finalSubject = dataEntry[this.config.userFieldName];
+                }
             }
         }
+        return this.finalSubject;
     }
 
-    async populateDataStore(field: HTMLInputElement) {
+    populateDataStore(field: HTMLInputElement) {
         const entry = this.schema?.entries.find((e) => e.id === field.id)!;
         const toAdd = {[FairQueryHelper.getPropertyFromExp(entry.query)]: field.value};
         if (this.dataStore.dirty) {
@@ -152,17 +170,20 @@ export class DataFormWrapper {
                 }
             }
         }
-        // TODO handle class obj
-        /* Object.keys(values).forEach((key) => {
-            if (values[key] === undefined) {
-                delete values[key];
-            }
-        }); */
         this.dataStore.mergeEntry(FairQueryHelper.getClassFromExp(entry.query), toAdd.id, toAdd);
     }
 
     pushData() {
-        console.log('pushing data');
-
+        if (!this.schema) {
+            throw new Error('Data schema was not loaded')
+        }
+        return RightConsents.http<FsData>({
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: this.dataStore.store,
+            url: `${this.config.dataCreationEndpoint}?format=${this.schema.name}%3A${this.schema.serial}&userId=${this.getSubject()}`
+        }).pipe(tap(() => this.destroyForm())).toPromise();
     }
 }

@@ -68,18 +68,18 @@
     </style>
     <form id="my-form"></form>
 
-    <form id="consent-form"></form>
-
     <script type="application/javascript">
         FairAndSmart.RightConsents.init({
             apiRoot: 'http://localhost:8087',
             catalogRoot: 'http://localhost:8191'
         });
-        const dataFormWrapper = new FairAndSmart.DataFormWrapper({
+        const dataFormWrapper = new FairAndSmart.DataCollector({
             dataCreationEndpoint: 'http://localhost:3001/data/form',
             elementId: 'my-form',
             schemaName: 'Contact',
-            schemaPrefix: 'sncfreseau'
+            schemaPrefix: 'sncfreseau',
+            userFieldId: 'e58d6366-4608-4d87-a1f5-da0826e13158',
+            dataSentTemplate: `<strong>You information have been sent with your consent!</strong>`
         });
 
         const consentCollector = new FairAndSmart.ConsentCollector({
@@ -96,9 +96,8 @@
         });
 
         const consentFormWrapper = new FairAndSmart.ConsentFormWrapper({
-            dataFormWrapper: dataFormWrapper,
+            dataCollector: dataFormWrapper,
             consentCollector: consentCollector,
-            subjectFieldId: 'e58d6366-4608-4d87-a1f5-da0826e13158'
         });
 
         consentFormWrapper.collect().then((response) => {

@@ -13,7 +13,7 @@ export * as SystemResource from './system';
 export * as TokensResource from './tokens';
 export * as UsersResource from './users';
 
-export { DataFormWrapper, ConsentFormWrapper, ConsentCollector } from './forms';
+export { DataCollector, ConsentFormWrapper, ConsentCollector } from './forms';
 
 export const version = "v1.3.0";
 

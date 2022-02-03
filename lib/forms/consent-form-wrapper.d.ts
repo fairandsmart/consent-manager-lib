@@ -1,13 +1,12 @@
 import { ConsentCollector } from './consent-collector';
-import { DataFormWrapper } from './data-form-wrapper';
+import { DataCollector } from './data-collector';
+import { FsData } from '@fairandsmart/types';
 export declare class ConsentFormWrapper {
     private config;
     formId: string;
     constructor(config: {
         consentCollector: ConsentCollector;
-        dataFormWrapper: DataFormWrapper;
-        subjectFieldId?: string;
-        subjectFieldName?: string;
+        dataCollector: DataCollector;
     });
-    collect(): Promise<void>;
+    collect(): Promise<FsData>;
 }
