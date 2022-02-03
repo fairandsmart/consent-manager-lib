@@ -2,7 +2,8 @@ import { ConsentCollectorCallback, ConsentCollectorConfig } from './interfaces';
 export declare class ConsentCollector {
     private config;
     constructor(config: ConsentCollectorConfig);
-    collect(callback?: ConsentCollectorCallback): Promise<void> | void;
+    overrideSubject(newSubject: string): void;
+    collect(callback?: ConsentCollectorCallback): Promise<void>;
     private getTokenFromBroker;
     private openInNewWindow;
     private openInIframe;

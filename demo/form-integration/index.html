@@ -76,9 +76,33 @@
             catalogRoot: 'http://localhost:8191'
         });
         const dataFormWrapper = new FairAndSmart.DataFormWrapper({
+            dataCreationEndpoint: 'http://localhost:3001/data/form',
             elementId: 'my-form',
             schemaName: 'Contact',
             schemaPrefix: 'sncfreseau'
+        });
+
+        const consentCollector = new FairAndSmart.ConsentCollector({
+            tokenBrokerEndpoint: 'http://localhost:3001/profile/form',
+            consentContext: {
+                origin: "WEBFORM",
+                confirmation: "NONE",
+                language: "en",
+                userinfos: {},
+                validity: "P6M",
+                layout: "layout.001"
+            },
+            mode: 'window'
+        });
+
+        const consentFormWrapper = new FairAndSmart.ConsentFormWrapper({
+            dataFormWrapper: dataFormWrapper,
+            consentCollector: consentCollector,
+            subjectFieldId: 'e58d6366-4608-4d87-a1f5-da0826e13158'
+        });
+
+        consentFormWrapper.collect().then((response) => {
+            console.log('Done', response);
         });
     </script>
 </body>

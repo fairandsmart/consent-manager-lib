@@ -4,40 +4,37 @@ import { RightConsents } from '../api';
 export class ConsentCollector {
     constructor(private config: ConsentCollectorConfig) {}
 
-    collect(callback?: ConsentCollectorCallback): Promise<void> | void {
-        let resolve: () => void;
-        let reject : () => void;
-        const promise = new Promise<void>((a, b) => {
-            resolve = a;
-            reject = b;
-        })
+    overrideSubject(newSubject: string) {
+        this.config.consentContext.subject = newSubject;
+        this.config.consentContext.author = newSubject;
+    }
 
-        this.getTokenFromBroker()
-            .toPromise()
-            .then((response) => {
-                if (!response?.token) {
-                    throw new Error('Could not retrieve token');
-                }
-                switch (this.config.mode) {
-                    case 'embed':
-                        return this.replaceElement(response.location);
-                    case 'iframe':
-                        return this.openInIframe(response.location);
-                    case 'window':
-                    default:
-                        return this.openInNewWindow(response.location);
-                }
-            })
-            .then((result) => {
-                if (callback) {
-                    callback();
-                } else {
+    collect(callback?: ConsentCollectorCallback): Promise<void> {
+        return new Promise((resolve, reject) => {
+            this.getTokenFromBroker()
+                .toPromise()
+                .then((response) => {
+                    if (!response?.token) {
+                        throw new Error('Could not retrieve token');
+                    }
+                    switch (this.config.mode) {
+                        case 'embed':
+                            return this.replaceElement(response.location);
+                        case 'iframe':
+                            return this.openInIframe(response.location);
+                        case 'window':
+                        default:
+                            return this.openInNewWindow(response.location);
+                    }
+                })
+                .then(() => {
+                    if (callback) {
+                        callback();
+                    }
                     resolve();
-                }
-            });
-        if (!callback) {
-            return promise;
-        }
+                })
+                .catch((err) => reject(err));
+        });
     }
 
     private getTokenFromBroker() {

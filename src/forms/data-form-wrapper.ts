@@ -1,6 +1,8 @@
 import { RightConsents } from '../api';
 import { DecoratedSchema, DecoratedSchemaEntry } from './interfaces';
 import { RegistryPropertyType, FairQueryHelper, DataStoreHelper } from '@fairandsmart/types';
+import { ConsentCollector } from './consent-collector';
+import { Observable, Subject } from 'rxjs';
 
 export class DataFormWrapper {
 
@@ -8,6 +10,8 @@ export class DataFormWrapper {
     parentFormElement: HTMLFormElement | null = null;
     formId: string;
     dataStore = new DataStoreHelper();
+    rendered: boolean = false;
+    private onSend$ = new Subject<DataStoreHelper>();
 
     constructor(private config: {
         elementId: string,
@@ -18,7 +22,17 @@ export class DataFormWrapper {
         onAbort?: (reason: string) => void
     }) {
         this.formId = (Math.random() + 1).toString(36).substring(4);
-        this.transformElement();
+    }
+
+    public render() {
+        if (!this.rendered) {
+            this.transformElement();
+        }
+        return this;
+    }
+
+    public onSend() {
+        return this.onSend$;
     }
 
     transformElement() {
@@ -32,6 +46,7 @@ export class DataFormWrapper {
                 element.appendChild(this.createSubmitButton());
                 this.parentFormElement!.innerHTML = '';
                 this.parentFormElement!.append(element);
+                this.rendered = true;
             });
         } else {
             throw new Error(`[F&S Data Form Wrapper] Element with id ${this.config.elementId} not found`);
@@ -46,23 +61,22 @@ export class DataFormWrapper {
             method: 'GET',
             url: `${RightConsents.config.catalogRoot}/${this.config.schemaPrefix}/schemas/${this.config.schemaName}/view/formly`
         }).toPromise();
-        console.log('schema loaded : ', this.schema);
     }
 
     private buildForm(): string {
         const entriesHtml: string[] = [];
         this.schema?.entries.sort((a, b) => a.index - b.index);
         this.schema?.entries.forEach((entry) => {
-                const formMask = entry.decoration.formMask?.[0];
-                if (!formMask) { return; }
-                const content = `
+            const formMask = entry.decoration.formMask?.[0];
+            if (!formMask) { return; }
+            const content = `
                     <div class="entry" id="fsentry-${entry.id}">
                         <label for="${entry.id}" id="fsentry-${entry.id}-label">${formMask.templateOptions.label}</label>
                         ${this.generateInput(entry)}
                     </div>
                 `;
-                entriesHtml.push(content);
-            });
+            entriesHtml.push(content);
+        });
         return entriesHtml.join('\n');
     }
 
@@ -100,13 +114,34 @@ export class DataFormWrapper {
                     this.populateDataStore(fields[fieldIndex] as HTMLInputElement);
                 }
             }
-            console.log(this.dataStore.store);
+            console.log('sending data');
+            this.onSend$.next(this.dataStore);
         } else {
             throw new Error('Could not find a valid form element');
         }
     }
 
-    populateDataStore(field: HTMLInputElement) {
+    getSubject(entryId: string, entryField?: string) {
+        const entry = this.schema?.entries.find((e) => e.id === entryId);
+        if (entry) {
+            const result: any = FairQueryHelper.apply(this.dataStore.store, entry.query);
+            if (result?.length) {
+                const dataEntry = result[0].value;
+                if (!!entryField) {
+                    if (typeof dataEntry === 'object' && !!entryField && Object.prototype.hasOwnProperty.call(dataEntry, entryField)) {
+                        return dataEntry[entryField];
+                    } else {
+                        throw new Error(`Could not find subject for field ${entryField} in data entry`);
+                    }
+                }
+                return dataEntry;
+            } else {
+                throw new Error(`Could not find subject for entry id ${entryId} in form data`);
+            }
+        }
+    }
+
+    async populateDataStore(field: HTMLInputElement) {
         const entry = this.schema?.entries.find((e) => e.id === field.id)!;
         const toAdd = {[FairQueryHelper.getPropertyFromExp(entry.query)]: field.value};
         if (this.dataStore.dirty) {
@@ -124,5 +159,10 @@ export class DataFormWrapper {
             }
         }); */
         this.dataStore.mergeEntry(FairQueryHelper.getClassFromExp(entry.query), toAdd.id, toAdd);
+    }
+
+    pushData() {
+        console.log('pushing data');
+
     }
 }
