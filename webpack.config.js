@@ -1,7 +1,6 @@
-import path from 'path';
-const __dirname = path.resolve();
+const path = require('path');
 
-export default {
+module.exports = {
   entry: {
     'my-lib': './src/index.ts',
     'my-lib.min': './src/index.ts'
