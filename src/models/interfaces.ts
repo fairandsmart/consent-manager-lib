@@ -214,6 +214,7 @@ export interface ModelFilter {
     keys?: string[];
     keyword?: string;
     statuses?: ModelEntryStatus[];
+    tags?: string[];
     languages?: string[];
     page?: number;
     size?: number;
