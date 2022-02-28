@@ -156,9 +156,9 @@ export interface FormLayout extends ModelData {
     acceptAllVisible?: boolean;
     acceptAllText?: string;
     submitText?: string;
+    cancelVisible?: boolean;
     cancelText?: string;
     footerOnTop?: boolean;
-    cancellable?: boolean;
 }
 export declare enum FormLayoutOrientation {
     HORIZONTAL = "HORIZONTAL",
