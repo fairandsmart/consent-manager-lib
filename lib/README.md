@@ -113,3 +113,4 @@ npm i {lib-repository}/lib/fairandsmart-consent-manager-{VERSION}.tgz
 - Run `.build.sh` and push 
 - Create a new merge request
 
+

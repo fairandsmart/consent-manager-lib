@@ -1,5 +1,5 @@
-import { Observable } from "rxjs";
-import { ClientConfigDto, SupportInfoDto, UserDto } from "./interfaces";
-export declare function getConnectedUser(): Observable<UserDto>;
-export declare function getSupportInfo(): Observable<SupportInfoDto>;
-export declare function getClientConfig(): Observable<ClientConfigDto>;
+import { Observable } from 'rxjs';
+import { ClientConfigDto, SupportInfoDto } from './interfaces';
+import { RCApiOptions } from '../http';
+export declare function getSupportInfo(options?: RCApiOptions): Observable<SupportInfoDto>;
+export declare function getClientConfig(options?: RCApiOptions): Observable<ClientConfigDto>;

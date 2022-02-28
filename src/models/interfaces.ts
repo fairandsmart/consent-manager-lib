@@ -24,8 +24,8 @@ export enum ModelVersionType {
     MINOR = 'MINOR'
 }
 
-export interface BasicInfo extends ModelData {
-    type: 'basicinfo';
+export interface Information extends ModelData {
+    type: 'information';
     title: string;
     header: string;
     footer: string;
@@ -40,6 +40,14 @@ export interface BasicInfo extends ModelData {
     privacyPolicyUrl: string;
     customPrivacyPolicyText: string;
 }
+
+export enum DefaultInfoTag {
+    DEFAULT_INFO_USER = 'DEFAULT_INFO_USER',
+    DEFAULT_INFO_OPERATOR = 'DEFAULT_INFO_OPERATOR',
+    DEFAULT_INFO_FORM = 'DEFAULT_INFO_FORM',
+}
+
+export const DEFAULT_INFO_TAGS = Object.keys(DefaultInfoTag);
 
 export interface Controller {
     company: string;
@@ -67,6 +75,17 @@ export enum ProcessingPurpose {
 
 export const PROCESSING_PURPOSES = Object.keys(ProcessingPurpose);
 
+export enum ProcessingLegalBasis {
+    LEGAL_BASIS_CONSENT = 'LEGAL_BASIS_CONSENT',
+    LEGAL_BASIS_CONTRACT = 'LEGAL_BASIS_CONTRACT',
+    LEGAL_BASIS_LEGITIMATE_INTEREST = 'LEGAL_BASIS_LEGITIMATE_INTEREST',
+    LEGAL_BASIS_LEGAL_OBLIGATION = 'LEGAL_BASIS_LEGAL_OBLIGATION',
+    LEGAL_BASIS_PUBLIC_INTEREST = 'LEGAL_BASIS_PUBLIC_INTEREST',
+    LEGAL_BASIS_VITAL_INTEREST = 'LEGAL_BASIS_VITAL_INTEREST'
+}
+
+export const PROCESSING_LEGAL_BASES = Object.keys(ProcessingLegalBasis);
+
 export interface RetentionInfo {
     label: string;
     value: number;
@@ -77,6 +96,7 @@ export interface RetentionInfo {
 export interface Processing extends ModelData {
     type: 'processing';
     title: string;
+    legalBasis: ProcessingLegalBasis;
     data: string;
     retention: RetentionInfo;
     usage: string;
@@ -114,8 +134,7 @@ export interface Conditions extends ModelData {
     type: 'conditions';
     title: string;
     body: string;
-    acceptLabel?: string; // deprecated
-    rejectLabel?: string; // deprecated
+    refusable?: boolean;
 }
 
 export enum LogoPosition {
@@ -151,21 +170,19 @@ export interface FormLayout extends ModelData {
     type: 'layout';
     info: string;
     elements: string[];
-    orientation?: FormLayoutOrientation;
     theme?: string;
     notification?: string;
+    orientation?: FormLayoutOrientation;
     existingElementsVisible?: boolean;
-    desiredReceiptMimeType?: SupportedReceiptMimeType;
     validityVisible?: boolean;
     includeIFrameResizer?: boolean;
     acceptAllVisible?: boolean;
     acceptAllText?: string;
+    submitText?: string;
+    cancelText?: string;
     footerOnTop?: boolean;
+    cancellable?: boolean;
 }
-
-export type SupportedReceiptMimeType = 'text/html' | 'application/xml' | 'application/pdf' | 'text/plain';
-
-export const RECEIPT_DISPLAY_TYPES: SupportedReceiptMimeType[] = ['text/html', 'application/xml', 'application/pdf', 'text/plain'];
 
 export enum FormLayoutOrientation {
     HORIZONTAL = 'HORIZONTAL',
@@ -182,7 +199,7 @@ export enum ConsentOrigin {
 
 export const CONSENT_ORIGIN: ConsentOrigin[] = Object.keys(ConsentOrigin) as ConsentOrigin[];
 
-export type ModelDataType = 'basicinfo' | 'processing' | 'conditions' | 'theme' | 'email' | 'preference' | 'layout';
+export type ModelDataType = 'information' | 'processing' | 'conditions' | 'theme' | 'email' | 'preference' | 'layout';
 
 export enum PreviewType {
     FORM = 'FORM',
@@ -197,6 +214,7 @@ export interface ModelFilter {
     keys?: string[];
     keyword?: string;
     statuses?: ModelEntryStatus[];
+    tags?: string[];
     languages?: string[];
     page?: number;
     size?: number;
@@ -242,16 +260,24 @@ export interface ModelVersionDto<T extends ModelData = ModelData> extends ModelV
     data: { [language: string]: T };
 }
 
-export interface ModelEntryDto {
+export interface ModelEntryDtoPartial {
     id: string;
     key: string;
     name: string;
     description: string;
     type: ModelDataType;
-    versions: ModelVersionDtoLight[];
     creationDate: number;
     modificationDate: number;
     status: ModelEntryStatus;
     defaultLanguage: string;
     availableLanguages: string[];
+    tags?: string[];
+}
+
+export interface ModelEntryDto extends ModelEntryDtoPartial {
+    versions: ModelVersionDtoLight[];
+}
+
+export interface ModelEntryExportDto extends ModelEntryDtoPartial {
+    versions: ModelVersionDto[];
 }

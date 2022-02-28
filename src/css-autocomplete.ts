@@ -1,408 +1,813 @@
 interface HintEntry {
-    css: string;
-    hints: { [key: string]: string; };
+    value: string;
+    context: { [key: string]: string; };
+    position: { [key: string]: string; };
+    description?: { [key: string]: string; };
 }
 
-export class ThemeAutocomplete {
-
-    private static readonly CSS_HINTS: HintEntry[] = [
-        // Common
-        {
-            css: '.list-label',
-            hints: {
-                fr: 'Formulaire/Reçu - Liste à points - Libellé',
-                en: 'Form/Receipt - Bullet list - Label'
-            }
+export const CSS_HINTS: HintEntry[] = [
+    // Common
+    {
+        value: '.list-label',
+        context: {
+            fr: 'Formulaire/Reçu',
+            en: 'Form/Receipt'
         },
-        {
-            css: '.list-value',
-            hints: {
-                fr: 'Formulaire/Reçu - Liste à points - Valeur',
-                en: 'Form/Receipt - Bullet list - Valeur'
-            }
+        position: {
+            fr: 'Liste à points',
+            en: 'Bullet list'
         },
-        {
-            css: '.elements-list',
-            hints: {
-                fr: 'Formulaire/Reçu - Liste d\'éléments',
-                en: 'Form/Receipt - Elements list'
-            }
+        description: {
+            fr: 'Libellé',
+            en: 'Label'
         },
-        {
-            css: '.info-header',
-            hints: {
-                fr: 'Formulaire/Reçu - En-tête - Conteneur',
-                en: 'Form/Receipt - Header - Container'
-            }
+    },
+    {
+        value: '.list-value',
+        context: {
+            fr: 'Formulaire/Reçu',
+            en: 'Form/Receipt'
         },
-        {
-            css: '.header-title',
-            hints: {
-                fr: 'Formulaire/Reçu - En-tête - Titre',
-                en: 'Form/Receipt - Header - Title'
-            }
+        position: {
+            fr: 'Liste à points',
+            en: 'Bullet list'
         },
-        {
-            css: '.header-body',
-            hints: {
-                fr: 'Formulaire/Reçu - En-tête - Texte',
-                en: 'Form/Receipt - Header - Text'
-            }
+        description: {
+            fr: 'Valeur',
+            en: 'Value'
         },
-        {
-            css: '.block-container',
-            hints: {
-                fr: 'Formulaire/Reçu - Bloc',
-                en: 'Form/Receipt - Block'
-            }
+    },
+    {
+        value: '.elements-list',
+        context: {
+            fr: 'Formulaire/Reçu',
+            en: 'Form/Receipt'
         },
-        {
-            css: '.block-title',
-            hints: {
-                fr: 'Formulaire/Reçu - Bloc - Titre',
-                en: 'Form/Receipt - Block - Title'
-            }
+        position: {
+            fr: 'Liste d\'éléments',
+            en: 'Elements list'
         },
-        {
-            css: '.block-body',
-            hints: {
-                fr: 'Formulaire/Reçu - Bloc - Corps',
-                en: 'Form/Receipt - Block - Body'
-            }
+    },
+    {
+        value: '.info-header',
+        context: {
+            fr: 'Formulaire/Reçu',
+            en: 'Form/Receipt'
         },
-        {
-            css: '.controller-container',
-            hints: {
-                fr: 'Formulaire/Reçu - Bloc : responsable de traitement',
-                en: 'Form/Receipt - Block: data controller'
-            }
+        position: {
+            fr: 'En-tête',
+            en: 'Header'
         },
-        {
-            css: '.information-container',
-            hints: {
-                fr: 'Formulaire/Reçu - Bloc : informations additionnelles',
-                en: 'Form/Receipt - Block: additional information'
-            }
+        description: {
+            fr: 'Conteneur',
+            en: 'Container'
         },
-        {
-            css: '.sensitive-container',
-            hints: {
-                fr: 'Formulaire/Reçu - Bloc : données sensibles',
-                en: 'Form/Receipt - Block: sensitive data'
-            }
+    },
+    {
+        value: '.header-title',
+        context: {
+            fr: 'Formulaire/Reçu',
+            en: 'Form/Receipt'
         },
-        {
-            css: '.third-parties-container',
-            hints: {
-                fr: 'Formulaire/Reçu - Bloc : tierces-parties',
-                en: 'Form/Receipt - Block: third parties'
-            }
+        position: {
+            fr: 'En-tête',
+            en: 'Header'
         },
-        {
-            css: '.item-container',
-            hints: {
-                fr: 'Formulaire/Reçu - Elément - Conteneur',
-                en: 'Form/Receipt - Item - Container'
-            }
+        description: {
+            fr: 'Titre',
+            en: 'Title'
         },
-        {
-            css: '.item-body',
-            hints: {
-                fr: 'Formulaire/Reçu - Elément - Corps',
-                en: 'Form/Receipt - Item - Body'
-            }
+    },
+    {
+        value: '.header-body',
+        context: {
+            fr: 'Formulaire/Reçu',
+            en: 'Form/Receipt'
         },
-        {
-            css: '.processing-data',
-            hints: {
-                fr: 'Formulaire/Reçu - Elément : traitement - Bloc des données',
-                en: 'Form/Receipt - Item: processing - Data block'
-            }
+        position: {
+            fr: 'En-tête',
+            en: 'Header'
         },
-        {
-            css: '.processing-retention',
-            hints: {
-                fr: 'Formulaire/Reçu - Elément : traitement - Bloc de durée de conservation',
-                en: 'Form/Receipt - Item: processing - Retention block'
-            }
+        description: {
+            fr: 'Texte',
+            en: 'Text'
         },
-        {
-            css: '.processing-usage',
-            hints: {
-                fr: 'Formulaire/Reçu - Elément : traitement - Bloc de finalité',
-                en: 'Form/Receipt - Item: processing - Usage block'
-            }
+    },
+    {
+        value: '.block-container',
+        context: {
+            fr: 'Formulaire/Reçu',
+            en: 'Form/Receipt'
         },
-        {
-            css: '.processing-purposes',
-            hints: {
-                fr: 'Formulaire/Reçu - Elément : traitement - Bloc de catégories de finalité',
-                en: 'Form/Receipt - Item: processing - Purpose categories block'
-            }
+        position: {
+            fr: 'Bloc',
+            en: 'Block'
         },
-        {
-            css: '.privacy-policy-container',
-            hints: {
-                fr: 'Formulaire/Reçu - Politique de confidentialité - Conteneur',
-                en: 'Form/Receipt - Privacy policy - Container'
-            }
+    },
+    {
+        value: '.block-title',
+        context: {
+            fr: 'Formulaire/Reçu',
+            en: 'Form/Receipt'
         },
-        {
-            css: '.privacy-policy',
-            hints: {
-                fr: 'Formulaire/Reçu - Politique de confidentialité - Lien',
-                en: 'Form/Receipt - Privacy policy - Link'
-            }
+        position: {
+            fr: 'Bloc',
+            en: 'Block'
         },
-        {
-            css: '.element',
-            hints: {
-                fr: 'Formulaire/Reçu - Elément - Conteneur',
-                en: 'Form/Receipt - Element - Container'
-            }
+        description: {
+            fr: 'Titre',
+            en: 'Title'
+        }
+    },
+    {
+        value: '.block-body',
+        context: {
+            fr: 'Formulaire/Reçu',
+            en: 'Form/Receipt'
         },
-        {
-            css: '.element-header',
-            hints: {
-                fr: 'Formulaire/Reçu - Elément - En-tête',
-                en: 'Form/Receipt - Element - Header'
-            }
+        position: {
+            fr: 'Bloc',
+            en: 'Block'
         },
-        {
-            css: '.element-title',
-            hints: {
-                fr: 'Formulaire/Reçu - Elément - Titre',
-                en: 'Form/Receipt - Element - Title'
-            }
+        description: {
+            fr: 'Corps',
+            en: 'Body'
+        }
+    },
+    {
+        value: '.controller-container',
+        context: {
+            fr: 'Formulaire/Reçu',
+            en: 'Form/Receipt'
         },
-        {
-            css: '.logo-container',
-            hints: {
-                fr: 'Formulaire/Reçu/Email - Logo - Conteneur',
-                en: 'Form/Receipt/Email - Logo - Container'
-            }
+        position: {
+            fr: 'Bloc',
+            en: 'Block'
         },
-        {
-            css: '.logo',
-            hints: {
-                fr: 'Formulaire/Reçu/Email - Logo - Image',
-                en: 'Form/Receipt/Email - Logo - Image'
-            }
+        description: {
+            fr: 'Responsable de traitement',
+            en: 'Data controller'
+        }
+    },
+    {
+        value: '.information-container',
+        context: {
+            fr: 'Formulaire/Reçu',
+            en: 'Form/Receipt'
         },
-        // Forms
-        {
-            css: '.consent-form',
-            hints: {
-                fr: 'Formulaire - Corps',
-                en: 'Form - Body'
-            }
+        position: {
+            fr: 'Bloc',
+            en: 'Block'
         },
-        {
-            css: '.left',
-            hints: {
-                fr: 'Formulaire - Corps - Partie gauche',
-                en: 'Form - Body - Left side'
-            }
+        description: {
+            fr: 'Informations additionnelles',
+            en: 'Additional information'
+        }
+    },
+    {
+        value: '.sensitive-container',
+        context: {
+            fr: 'Formulaire/Reçu',
+            en: 'Form/Receipt'
         },
-        {
-            css: '.right',
-            hints: {
-                fr: 'Formulaire - Corps - Partie droite',
-                en: 'Form - Body - Right side'
-            }
+        position: {
+            fr: 'Bloc',
+            en: 'Block'
         },
-        {
-            css: '.switch',
-            hints: {
-                fr: 'Formulaire - Interrupteur - Conteneur',
-                en: 'Form - Switch - Container'
-            }
+        description: {
+            fr: 'Données sensibles',
+            en: 'Sensitive data'
+        }
+    },
+    {
+        value: '.third-parties-container',
+        context: {
+            fr: 'Formulaire/Reçu',
+            en: 'Form/Receipt'
         },
-        {
-            css: '.switch-slider',
-            hints: {
-                fr: 'Formulaire - Interrupteur - Bouton',
-                en: 'Form - Switch - Button'
-            }
+        position: {
+            fr: 'Bloc',
+            en: 'Block'
         },
-        {
-            css: '.switch-text',
-            hints: {
-                fr: 'Formulaire - Interrupteur - Texte',
-                en: 'Form - Switch - Text'
-            }
+        description: {
+            fr: 'Tierces-parties',
+            en: 'Third parties'
+        }
+    },
+    {
+        value: '.item-container',
+        context: {
+            fr: 'Formulaire/Reçu',
+            en: 'Form/Receipt'
         },
-        {
-            css: '.switch-text.accept',
-            hints: {
-                fr: 'Formulaire - Interrupteur - Texte affirmatif (droite)',
-                en: 'Form - Switch - Affirmative text (right)'
-            }
+        position: {
+            fr: 'Élément',
+            en: 'Item'
         },
-        {
-            css: '.switch-text.refuse',
-            hints: {
-                fr: 'Formulaire - Interrupteur - Texte négatif (gauche)',
-                en: 'Form - Switch - Negative text (left)'
-            }
+        description: {
+            fr: 'Conteneur',
+            en: 'Container'
+        }
+    },
+    {
+        value: '.item-body',
+        context: {
+            fr: 'Formulaire/Reçu',
+            en: 'Form/Receipt'
         },
-        {
-            css: '.info-footer',
-            hints: {
-                fr: 'Formulaire - Pied - Conteneur',
-                en: 'Form - Footer - Container'
-            }
+        position: {
+            fr: 'Élément',
+            en: 'Item'
         },
-        {
-            css: '.conditions-response',
-            hints: {
-                fr: 'Formulaire - CGU - Conteneur de l\'interrupteur',
-                en: 'Form - Conditions - Switch container'
-            }
+        description: {
+            fr: 'Corps',
+            en: 'Body'
+        }
+    },
+    {
+        value: '.processing-data',
+        context: {
+            fr: 'Formulaire/Reçu',
+            en: 'Form/Receipt'
         },
-        {
-            css: '.footer-body',
-            hints: {
-                fr: 'Formulaire - Pied - Corps',
-                en: 'Form - Footer - Body'
-            }
+        position: {
+            fr: 'Élément',
+            en: 'Item'
         },
-        {
-            css: '.accept-all-container',
-            hints: {
-                fr: 'Formulaire - Pied - Tout accepter - Conteneur',
-                en: 'Form - Footer - Accept all - Container'
-            }
+        description: {
+            fr: 'Traitement - Bloc des données',
+            en: 'Processing - Data block'
+        }
+    },
+    {
+        value: '.processing-retention',
+        context: {
+            fr: 'Formulaire/Reçu',
+            en: 'Form/Receipt'
         },
-        {
-            css: '.accept-all-container-text',
-            hints: {
-                fr: 'Formulaire - Pied - Tout accepter - Texte',
-                en: 'Form - Footer - Accept all - Text'
-            }
+        position: {
+            fr: 'Élément',
+            en: 'Item'
         },
-        {
-            css: '.submit-container',
-            hints: {
-                fr: 'Formulaire - Pied - Bouton d\'envoi - Conteneur',
-                en: 'Form - Footer - Submit button - Container'
-            }
+        description: {
+            fr: 'Traitement - Bloc de durée de conservation',
+            en: 'Processing - Retention block'
+        }
+    },
+    {
+        value: '.processing-usage',
+        context: {
+            fr: 'Formulaire/Reçu',
+            en: 'Form/Receipt'
         },
-        {
-            css: '.submit-button',
-            hints: {
-                fr: 'Formulaire - Pied - Bouton d\'envoi - Bouton',
-                en: 'Form - Footer - Submit button - Button'
-            }
+        position: {
+            fr: 'Élément',
+            en: 'Item'
         },
-        // Receipts
-        {
-            css: '.receipt',
-            hints: {
-                fr: 'Reçu - Corps',
-                en: 'Receipt - Body'
-            }
+        description: {
+            fr: 'Traitement - Bloc de finalité',
+            en: 'Processing - Usage block'
+        }
+    },
+    {
+        value: '.processing-legal-bases',
+        context: {
+            fr: 'Formulaire/Reçu',
+            en: 'Form/Receipt'
         },
-        {
-            css: '.processing-response',
-            hints: {
-                fr: 'Reçu - Traitement - Réponse',
-                en: 'Receipt - Processing - Response'
-            }
+        position: {
+            fr: 'Élément',
+            en: 'Item'
         },
-        {
-            css: '.processing-response.accepted',
-            hints: {
-                fr: 'Reçu - Traitement - Réponse - Acceptée',
-                en: 'Receipt - Processing - Response - Accepted'
-            }
+        description: {
+            fr: 'Traitement - Bloc de bases légales',
+            en: 'Processing - Legal bases block'
+        }
+    },
+    {
+        value: '.processing-purposes',
+        context: {
+            fr: 'Formulaire/Reçu',
+            en: 'Form/Receipt'
         },
-        {
-            css: '.processing-response.refused',
-            hints: {
-                fr: 'Reçu - Traitement - Réponse - Refusée',
-                en: 'Receipt - Processing - Response - Refused'
-            }
+        position: {
+            fr: 'Élément',
+            en: 'Item'
         },
-        {
-            css: '.qr-code-container',
-            hints: {
-                fr: 'Reçu - QR code - Conteneur',
-                en: 'Receipt - QR code - Container'
-            }
+        description: {
+            fr: 'Traitement - Bloc de catégories de finalité',
+            en: 'Processing - Purpose categories block'
+        }
+    },
+    {
+        value: '.privacy-policy-container',
+        context: {
+            fr: 'Formulaire/Reçu',
+            en: 'Form/Receipt'
         },
-        {
-            css: '.qr-code',
-            hints: {
-                fr: 'Reçu - QR code - Image',
-                en: 'Receipt - QR code - Image'
-            }
+        position: {
+            fr: 'Politique de confidentialité',
+            en: 'Privacy policy'
         },
-        // Emails
-        {
-            css: '.email-content',
-            hints: {
-                fr: 'Email - Conteneur',
-                en: 'Email - Container'
-            }
+        description: {
+            fr: 'Conteneur',
+            en: 'Container'
+        }
+    },
+    {
+        value: '.privacy-policy',
+        context: {
+            fr: 'Formulaire/Reçu',
+            en: 'Form/Receipt'
         },
-        {
-            css: '.email-title',
-            hints: {
-                fr: 'Email - Titre',
-                en: 'Email - Title'
-            }
+        position: {
+            fr: 'Politique de confidentialité',
+            en: 'Privacy policy'
         },
-        {
-            css: '.email-body',
-            hints: {
-                fr: 'Email - Corps',
-                en: 'Email - Body'
-            }
+        description: {
+            fr: 'Lien',
+            en: 'Link'
+        }
+    },
+    {
+        value: '.element',
+        context: {
+            fr: 'Formulaire/Reçu',
+            en: 'Form/Receipt'
         },
-        {
-            css: '.email-button-container',
-            hints: {
-                fr: 'Email - Bouton - Conteneur',
-                en: 'Email - Button - Container'
-            }
+        position: {
+            fr: 'Élément',
+            en: 'Item'
         },
-        {
-            css: '.email-button',
-            hints: {
-                fr: 'Email - Bouton',
-                en: 'Email - Button'
-            }
+        description: {
+            fr: 'Conteneur',
+            en: 'Container'
+        }
+    },
+    {
+        value: '.element-header',
+        context: {
+            fr: 'Formulaire/Reçu',
+            en: 'Form/Receipt'
         },
-        {
-            css: '.email-button-content',
-            hints: {
-                fr: 'Email - Bouton - Texte',
-                en: 'Email - Button - Text'
-            }
+        position: {
+            fr: 'Élément',
+            en: 'Item'
         },
-        {
-            css: '.email-footer',
-            hints: {
-                fr: 'Email - Pied de page',
-                en: 'Email - Footer'
-            }
+        description: {
+            fr: 'En-tête',
+            en: 'Header'
+        }
+    },
+    {
+        value: '.element-title',
+        context: {
+            fr: 'Formulaire/Reçu',
+            en: 'Form/Receipt'
         },
-        {
-            css: '.email-signature',
-            hints: {
-                fr: 'Email - Signature',
-                en: 'Email - Signature'
-            }
+        position: {
+            fr: 'Élément',
+            en: 'Item'
         },
-    ];
-
-    static createSnippets(language: string): { text: string, displayText: string }[] {
-        return ThemeAutocomplete.CSS_HINTS.map((entry) => {
-            return {
-                text: entry.css,
-                displayText: entry.hints[language] ? entry.hints[language] : entry.css
-            };
-        });
-    }
-}
+        description: {
+            fr: 'Titre',
+            en: 'Title'
+        }
+    },
+    {
+        value: '.logo-container',
+        context: {
+            fr: 'Formulaire/Reçu/Email',
+            en: 'Form/Receipt/Email'
+        },
+        position: {
+            fr: 'Logo',
+            en: 'Logo'
+        },
+        description: {
+            fr: 'Conteneur',
+            en: 'Container'
+        }
+    },
+    {
+        value: '.logo',
+        context: {
+            fr: 'Formulaire/Reçu/Email',
+            en: 'Form/Receipt/Email'
+        },
+        position: {
+            fr: 'Logo',
+            en: 'Logo'
+        },
+        description: {
+            fr: 'Image',
+            en: 'Image'
+        }
+    },
+    // Forms
+    {
+        value: '.consent-form',
+        context: {
+            fr: 'Formulaire',
+            en: 'Form'
+        },
+        position: {
+            fr: 'Corps',
+            en: 'Body'
+        }
+    },
+    {
+        value: '.left',
+        context: {
+            fr: 'Formulaire',
+            en: 'Form'
+        },
+        position: {
+            fr: 'Corps',
+            en: 'Body'
+        },
+        description: {
+            fr: 'Partie gauche',
+            en: 'Left side'
+        }
+    },
+    {
+        value: '.right',
+        context: {
+            fr: 'Formulaire',
+            en: 'Form'
+        },
+        position: {
+            fr: 'Corps',
+            en: 'Body'
+        },
+        description: {
+            fr: 'Partie droite',
+            en: 'Right side'
+        }
+    },
+    {
+        value: '.switch',
+        context: {
+            fr: 'Formulaire',
+            en: 'Form'
+        },
+        position: {
+            fr: 'Interrupteur',
+            en: 'Switch'
+        },
+        description: {
+            fr: 'Conteneur',
+            en: 'Container'
+        }
+    },
+    {
+        value: '.switch-slider',
+        context: {
+            fr: 'Formulaire',
+            en: 'Form'
+        },
+        position: {
+            fr: 'Interrupteur',
+            en: 'Switch'
+        },
+        description: {
+            fr: 'Bouton',
+            en: 'Button'
+        }
+    },
+    {
+        value: '.switch-text',
+        context: {
+            fr: 'Formulaire',
+            en: 'Form'
+        },
+        position: {
+            fr: 'Interrupteur',
+            en: 'Switch'
+        },
+        description: {
+            fr: 'Texte',
+            en: 'Text'
+        }
+    },
+    {
+        value: '.switch-text.accept',
+        context: {
+            fr: 'Formulaire',
+            en: 'Form'
+        },
+        position: {
+            fr: 'Interrupteur',
+            en: 'Switch'
+        },
+        description: {
+            fr: 'Texte affirmatif (droite)',
+            en: 'Affirmative text (right)'
+        }
+    },
+    {
+        value: '.switch-text.refuse',
+        context: {
+            fr: 'Formulaire',
+            en: 'Form'
+        },
+        position: {
+            fr: 'Interrupteur',
+            en: 'Switch'
+        },
+        description: {
+            fr: 'Texte négatif (gauche)',
+            en: 'Negative text (left)'
+        }
+    },
+    {
+        value: '.info-footer',
+        context: {
+            fr: 'Formulaire',
+            en: 'Form'
+        },
+        position: {
+            fr: 'Pied',
+            en: 'Footer'
+        },
+        description: {
+            fr: 'Conteneur',
+            en: 'Container'
+        }
+    },
+    {
+        value: '.conditions-response',
+        context: {
+            fr: 'Formulaire',
+            en: 'Form'
+        },
+        position: {
+            fr: 'CGU',
+            en: 'Conditions'
+        },
+        description: {
+            fr: 'Conteneur de l\'interrupteur',
+            en: 'Switch container'
+        }
+    },
+    {
+        value: '.footer-body',
+        context: {
+            fr: 'Formulaire',
+            en: 'Form'
+        },
+        position: {
+            fr: 'Pied',
+            en: 'Footer'
+        },
+        description: {
+            fr: 'Corps',
+            en: 'Body'
+        }
+    },
+    {
+        value: '.accept-all-container',
+        context: {
+            fr: 'Formulaire',
+            en: 'Form'
+        },
+        position: {
+            fr: 'Pied',
+            en: 'Footer'
+        },
+        description: {
+            fr: 'Tout accepter - Conteneur',
+            en: 'Accept all - Container'
+        }
+    },
+    {
+        value: '.accept-all-container-text',
+        context: {
+            fr: 'Formulaire',
+            en: 'Form'
+        },
+        position: {
+            fr: 'Pied',
+            en: 'Footer'
+        },
+        description: {
+            fr: 'Tout accepter - Texte',
+            en: 'Accept all - Text'
+        }
+    },
+    {
+        value: '.submit-container',
+        context: {
+            fr: 'Formulaire',
+            en: 'Form'
+        },
+        position: {
+            fr: 'Pied',
+            en: 'Footer'
+        },
+        description: {
+            fr: 'Bouton d\'envoi - Conteneur',
+            en: 'Submit button - Container'
+        }
+    },
+    {
+        value: '.submit-button',
+        context: {
+            fr: 'Formulaire',
+            en: 'Form'
+        },
+        position: {
+            fr: 'Pied',
+            en: 'Footer'
+        },
+        description: {
+            fr: 'Bouton d\'envoi - Bouton',
+            en: 'Submit button - Button'
+        }
+    },
+    // Receipts
+    {
+        value: '.receipt',
+        context: {
+            fr: 'Reçu',
+            en: 'Receipt'
+        },
+        position: {
+            fr: 'Corps',
+            en: 'Body'
+        }
+    },
+    {
+        value: '.processing-response',
+        context: {
+            fr: 'Reçu',
+            en: 'Receipt'
+        },
+        position: {
+            fr: 'Traitement',
+            en: 'Processing'
+        },
+        description: {
+            fr: 'Réponse',
+            en: 'Response'
+        }
+    },
+    {
+        value: '.processing-response.accepted',
+        context: {
+            fr: 'Reçu',
+            en: 'Receipt'
+        },
+        position: {
+            fr: 'Traitement',
+            en: 'Processing'
+        },
+        description: {
+            fr: 'Réponse - Acceptée',
+            en: 'Response - Accepter'
+        }
+    },
+    {
+        value: '.processing-response.refused',
+        context: {
+            fr: 'Reçu',
+            en: 'Receipt'
+        },
+        position: {
+            fr: 'Traitement',
+            en: 'Processing'
+        },
+        description: {
+            fr: 'Réponse - Refusée',
+            en: 'Response - Refused'
+        }
+    },
+    {
+        value: '.qr-code-container',
+        context: {
+            fr: 'Reçu',
+            en: 'Receipt'
+        },
+        position: {
+            fr: 'QR code',
+            en: 'QR code'
+        },
+        description: {
+            fr: 'Conteneur',
+            en: 'Container'
+        }
+    },
+    {
+        value: '.qr-code',
+        context: {
+            fr: 'Reçu',
+            en: 'Receipt'
+        },
+        position: {
+            fr: 'QR code',
+            en: 'QR code'
+        },
+        description: {
+            fr: 'Image',
+            en: 'Image'
+        }
+    },
+    // Emails
+    {
+        value: '.email-content',
+        context: {
+            fr: 'Email',
+            en: 'Email'
+        },
+        position: {
+            fr: 'Conteneur',
+            en: 'Container'
+        }
+    },
+    {
+        value: '.email-title',
+        context: {
+            fr: 'Email',
+            en: 'Email'
+        },
+        position: {
+            fr: 'Titre',
+            en: 'Title'
+        }
+    },
+    {
+        value: '.email-body',
+        context: {
+            fr: 'Email',
+            en: 'Email'
+        },
+        position: {
+            fr: 'Corps',
+            en: 'Body'
+        }
+    },
+    {
+        value: '.email-button-container',
+        context: {
+            fr: 'Email',
+            en: 'Email'
+        },
+        position: {
+            fr: 'Bouton',
+            en: 'Button'
+        },
+        description: {
+            fr: 'Conteneur',
+            en: 'Container'
+        }
+    },
+    {
+        value: '.email-button',
+        context: {
+            fr: 'Email',
+            en: 'Email'
+        },
+        position: {
+            fr: 'Bouton',
+            en: 'Button'
+        }
+    },
+    {
+        value: '.email-button-content',
+        context: {
+            fr: 'Email',
+            en: 'Email'
+        },
+        position: {
+            fr: 'Bouton',
+            en: 'Button'
+        },
+        description: {
+            fr: 'Texte',
+            en: 'Text'
+        }
+    },
+    {
+        value: '.email-footer',
+        context: {
+            fr: 'Email',
+            en: 'Email'
+        },
+        position: {
+            fr: 'Pied de page',
+            en: 'Footer'
+        }
+    },
+    {
+        value: '.email-signature',
+        context: {
+            fr: 'Email',
+            en: 'Email'
+        },
+        position: {
+            fr: 'Signature',
+            en: 'Signature'
+        }
+    },
+];

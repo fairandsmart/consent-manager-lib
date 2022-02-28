@@ -1,4 +1,5 @@
 import { Observable } from 'rxjs';
+export declare const defaultHttpClient: RcHttpClient;
 export interface RcHttpClientConfig {
     method: 'GET' | 'POST' | 'DELETE' | 'PUT';
     url: string;
@@ -11,6 +12,21 @@ export interface RcHttpClientConfig {
         [key: string]: string;
     };
     responseType?: 'arraybuffer' | 'blob' | 'json' | 'text';
+    options?: RCApiOptions;
+    resolveHeaders?: boolean;
+}
+/**
+ * Additional options that can alter the default behavior of the api calls
+ */
+export interface RCApiOptions {
+    /** If exists, should remove bearer authentication (like noAuth) and pass this token as queryParam "?t={token}".  */
+    withToken?: string;
+    /** If true, should remove bearer authentication */
+    noAuth?: boolean;
+    /** Pass any additional parameters in this data field */
+    data?: {
+        [key: string]: any;
+    };
 }
 /**
  * A generic, minimal type for providing an HTTP client function.

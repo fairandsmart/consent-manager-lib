@@ -3,4 +3,5 @@ export interface SubjectDto {
     name: string;
     emailAddress: string;
     creationTimestamp: number;
+    defaultLanguage: string;
 }

@@ -1,5 +1,28 @@
 import { ConsentOrigin, FormLayout } from '../models';
 
+export enum Confirmation {
+    NONE = 'NONE',
+    FORM_CODE = 'FORM_CODE',
+    EMAIL_CODE = 'EMAIL_CODE',
+    SMS_CODE = 'SMS_CODE',
+    SIGNATURE = 'SIGNATURE',
+    AUDIO_RECORD = 'AUDIO_RECORD',
+    VIDEO_RECORD = 'VIDEO_RECORD',
+    DIGITAL_SIGNATURE = 'DIGITAL_SIGNATURE'
+}
+
+export const CONFIRMATION_TYPES: Confirmation[] = Object.keys(Confirmation) as Confirmation[];
+
+export enum UserInfosKeys {
+    EMAIL_KEY = 'emailAddress',
+    PHONE_KEY = 'phoneNumber'
+}
+
+export enum ConfirmationConfigKeys {
+    SENDER_EMAIL_KEY = 'senderEmail',
+    SENDER_PHONE_KEY = 'senderPhone'
+}
+
 /**
  * The ConsentContext is used to generate a token. This token is used:
  * - To generate a form in a browser for the user to fill
@@ -24,11 +47,11 @@ export interface ConsentContext {
      */
     origin?: ConsentOrigin;
 
-    /** The recipient the confirmation email will be sent to */
-    notificationRecipient?: string;
-
     /** (optional) The ISO 8601 duration for the validity of the record.  */
     validity?: string;
+
+    /** Specifies whether the consent can be updated afterwards. */
+    updatable?: boolean;
 
     /** Any relevant informations about the user that will be persisted in the receipt */
     userinfos?: { [key: string]: string };
@@ -42,14 +65,17 @@ export interface ConsentContext {
     /** The identifier of the user who used the form */
     author?: string;
 
-    /** If true, the form will be displayed as a preview and will be for display purposes only */
-    preview?: boolean;
-
     /** The FormLayout Data to use ; if layout key is provided, layoutData will be ignored.*/
     layoutData?: FormLayout;
 
     /** The reference to the 'formlayout' model that will be used.*/
     layout?: string;
+
+    /** The type of user confirmation needed, default is NONE */
+    confirmation?: Confirmation;
+
+    /** Additional information needed for user confirmation */
+    confirmationConfig?: { [key: string]: string };
 }
 
 /** Used to generate a Receipt from a transaction id */
